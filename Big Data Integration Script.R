@@ -1,5 +1,5 @@
 #Set Working Directory#
-setwd("~/Big Data Integration Project")
+setwd("~/Big-Data-Integration")
 
 #Read packages into script#
 library(tidyverse)

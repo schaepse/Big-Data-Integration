@@ -16,7 +16,9 @@ library(tm)
 library(ggwordcloud)
 
 #Vincent's Tweets#
-vincents_tweets <- search_tweets(q = "vincent's", n = 1000, lang = "en", include_rts = FALSE)
+vincents <- c("vincent's", "pasta sauce")
+vincents_search <- paste(vincents, collapse = " AND ")
+vincents_tweets <- search_tweets(q = vincents_search, n = 1000, lang = "en", include_rts = FALSE)
 
 tibble(vincents_tweets)
 head(vincents_tweets$text)
@@ -45,7 +47,7 @@ remove_stop_vin <- tm_map(remove_num_vin, removeWords, stopwords("english"))
 
 remove_white_vin <- tm_map(remove_stop_vin, stripWhitespace)
 
-remove_words_vin <- tm_map(remove_white_vin, removeWords, c("vincent", "vincent's", "vincents"))
+remove_words_vin <- tm_map(remove_white_vin, removeWords, c("vincent", "vincent's", "vincents", "amp"))
 
 matrix_vin <- TermDocumentMatrix((remove_words_vin))
 matrix_vin_2 <- as.matrix(matrix_vin)
@@ -69,7 +71,9 @@ ggplot(top_25_vin,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Pine Mountain Tweets#
-pine_mountain_tweets <- search_tweets(q = "pine mountain", n = 1000, lang = "en", include_rts = FALSE)
+pine_mountain <- c("pine mountain", "syrup")
+pine_mountain_search <- paste(pine_mountain, collapse = " AND ")
+pine_mountain_tweets <- search_tweets(q = pine_mountain_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(pine_mountain_tweets)
 
 head(pine_mountain_tweets$text)
@@ -98,7 +102,7 @@ remove_stop_pine <- tm_map(remove_num_pine, removeWords, stopwords("english"))
 
 remove_white_pine <- tm_map(remove_stop_pine, stripWhitespace)
 
-remove_words_pine <- tm_map(remove_white_pine, removeWords, c("pine mountain", "pine", "mountain", "pines", "mountains"))
+remove_words_pine <- tm_map(remove_white_pine, removeWords, c("pine mountain", "pine", "mountain", "pines", "mountains", "amp"))
 
 matrix_pine <- TermDocumentMatrix((remove_words_pine))
 matrix_pine_2 <- as.matrix(matrix_pine)
@@ -122,7 +126,9 @@ ggplot(top_25_pine,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Miller Tweets#
-miller_tweets <- search_tweets(q = "miller", n = 1000, lang = "en", include_rts = FALSE)
+miller <- c("miller", "syrup")
+miller_search <- paste(miller, collapse = " AND ")
+miller_tweets <- search_tweets(q = miller_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(miller_tweets)
 
 head(miller_tweets$text)
@@ -150,7 +156,7 @@ remove_stop_miller <- tm_map(remove_num_miller, removeWords, stopwords("english"
 
 remove_white_miller <- tm_map(remove_stop_miller, stripWhitespace)
 
-remove_words_miller <- tm_map(remove_white_miller, removeWords, c("miller", "millers"))
+remove_words_miller <- tm_map(remove_white_miller, removeWords, c("miller", "millers", "amp"))
 
 matrix_miller <- TermDocumentMatrix((remove_words_miller))
 matrix_miller_2 <- as.matrix(matrix_miller)
@@ -174,7 +180,9 @@ ggplot(top_25_miller,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Barilla Tweets#
-barilla_tweets <- search_tweets(q = "barilla", n = 1000, lang = "en", include_rts = FALSE)
+barilla = c("barilla", "pasta")
+barilla_search <- paste(barilla, collapse = " AND ")
+barilla_tweets <- search_tweets(q = barilla_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(barilla_tweets)
 
 head(barilla_tweets$text)
@@ -202,7 +210,7 @@ remove_stop_barilla <- tm_map(remove_num_barilla, removeWords, stopwords("englis
 
 remove_white_barilla <- tm_map(remove_stop_barilla, stripWhitespace)
 
-remove_words_barilla <- tm_map(remove_white_barilla, removeWords, c("barilla", "barillas", "cbarilla"))
+remove_words_barilla <- tm_map(remove_white_barilla, removeWords, c("barilla", "barillas", "cbarilla", "amp"))
 
 matrix_barilla <- TermDocumentMatrix((remove_words_barilla))
 matrix_barilla_2 <- as.matrix(matrix_barilla)
@@ -226,7 +234,9 @@ ggplot(top_25_barilla,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Elena's Tweets#
-elenas_tweets <- search_tweets(q = "elena's", n = 1000, lang = "en", include_rts = FALSE)
+elenas <- c("elena's", "pasta")
+elenas_search <- paste(elenas, collapse = " AND ")
+elenas_tweets <- search_tweets(q = elenas_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(elenas_tweets)
 
 head(elenas_tweets$text)
@@ -254,7 +264,7 @@ remove_stop_elenas <- tm_map(remove_num_elenas, removeWords, stopwords("english"
 
 remove_white_elenas <- tm_map(remove_stop_elenas, stripWhitespace)
 
-remove_words_elenas <- tm_map(remove_white_elenas, removeWords, c("elenas", "elena", "elena's", "elana", "elanas", "elana's"))
+remove_words_elenas <- tm_map(remove_white_elenas, removeWords, c("elenas", "elena", "elena's", "elana", "elanas", "elana's", "amp"))
 
 matrix_elenas <- TermDocumentMatrix((remove_words_elenas))
 matrix_elenas_2 <- as.matrix(matrix_elenas)

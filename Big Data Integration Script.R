@@ -16,7 +16,7 @@ library(tm)
 library(ggwordcloud)
 
 #Vincent's Tweets#
-vincents <- c("vincent's", "pasta")
+vincents <- c("vincents", "pasta")
 vincents_search <- paste(vincents, collapse = " AND ")
 vincents_tweets <- search_tweets(q = vincents_search, n = 1000, lang = "en", include_rts = FALSE)
 
@@ -50,9 +50,12 @@ remove_white_vin <- tm_map(remove_stop_vin, stripWhitespace)
 remove_words_vin <- tm_map(remove_white_vin, removeWords, c("vincent", "vincent's", "vincents", "amp", "pasta", "pastas"))
 
 matrix_vin <- TermDocumentMatrix((remove_words_vin))
+matrix_vin
+matrix_vin_2
+sort_vin
 matrix_vin_2 <- as.matrix(matrix_vin)
 sort_vin <- sort(rowSums(matrix_vin_2), decreasing = TRUE)
-data_frame_vin <- data.frame(word = names(sort_vin), freq = sort)
+data_frame_vin <- data.frame(word = names(sort_vin), freq = sort_vin)
 
 top_25_vin <- data_frame_vin %>%
   top_n(25)
@@ -125,7 +128,7 @@ ggplot(top_25_pine,
   labs(title = "Word Cloud: Tweets Using the Word - Pine Mountain",
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
-#Miller Tweets#
+#Miller Tweets# - check again
 miller <- c("miller", "syrup")
 miller_search <- paste(miller, collapse = " AND ")
 miller_tweets <- search_tweets(q = miller_search, n = 1000, lang = "en", include_rts = FALSE)
@@ -134,6 +137,7 @@ tibble(miller_tweets)
 head(miller_tweets$text)
 
 miller_text <- miller_tweets$text
+miller_text
 
 corpus_miller <- Corpus(VectorSource(miller_tweets$text))
 
@@ -147,6 +151,7 @@ lower_miller <- tm_map(url_clean_miller, content_transformer(tolower))
 
 remove_items <- function(x) gsub("[^[:alpha:][:space:]]*", "", x)
 remove_miller <- tm_map(lower_miller, content_transformer(remove_items))
+ 
 
 remove_punct_miller <- tm_map(remove_miller, removePunctuation)
 
@@ -162,9 +167,12 @@ matrix_miller <- TermDocumentMatrix((remove_words_miller))
 matrix_miller_2 <- as.matrix(matrix_miller)
 sort_miller <- sort(rowSums(matrix_miller_2), decreasing = TRUE)
 data_frame_miller <- data.frame(word = names(sort_miller), freq = sort_miller)
+data_frame_miller
 
 top_25_miller <- data_frame_miller %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq>1)
+top_25_miller
 
 set.seed(1234)
 ggplot(top_25_miller, 
@@ -218,7 +226,8 @@ sort_barilla <- sort(rowSums(matrix_barilla_2), decreasing = TRUE)
 data_frame_barilla <- data.frame(word = names(sort_barilla), freq = sort_barilla)
 
 top_25_barilla <- data_frame_barilla %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_barilla, 
@@ -234,7 +243,7 @@ ggplot(top_25_barilla,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Elena's Tweets#
-elenas <- c("elena's", "pasta")
+elenas <- c("elenas", "pasta")
 elenas_search <- paste(elenas, collapse = " AND ")
 elenas_tweets <- search_tweets(q = elenas_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(elenas_tweets)
@@ -272,8 +281,9 @@ sort_elenas <- sort(rowSums(matrix_elenas_2), decreasing = TRUE)
 data_frame_elenas <- data.frame(word = names(sort_elenas), freq = sort_elenas)
 
 top_25_elenas <- data_frame_elenas %>%
-  top_n(25)
-top_25_elenas
+  top_n(25) %>%
+  filter(freq > 1)
+
 
 set.seed(1234)
 ggplot(top_25_elenas, 
@@ -452,7 +462,7 @@ ggplot(top_25_golden_eagle,
   labs(title = "Word Cloud: Tweets Using the Word - Golden Eagle",
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
-#RR Tweets#
+#RR Tweets# -check again
 rr <- c("rr", "pasta")
 rr_search <- paste(rr, collapse = " AND ")
 rr_tweets <- search_tweets(q = rr_search, n = 1000, lang = "en", include_rts = FALSE)
@@ -491,7 +501,8 @@ sort_rr <- sort(rowSums(matrix_rr_2), decreasing = TRUE)
 data_frame_rr <- data.frame(word = names(sort_rr), freq = sort_rr)
 
 top_25_rr <- data_frame_rr %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_rr, 
@@ -508,7 +519,7 @@ ggplot(top_25_rr,
 
 #Gooch Tweets#
 gooch <- c("gooch", "pasta")
-gooch_search <- pasta(gooch, collapse = " AND ")
+gooch_search <- paste(gooch, collapse = " AND ")
 gooch_tweets <- search_tweets(q = gooch_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(gooch_tweets)
 
@@ -599,7 +610,8 @@ sort_alaga <- sort(rowSums(matrix_alaga_2), decreasing = TRUE)
 data_frame_alaga <- data.frame(word = names(sort_alaga), freq = sort_alaga)
 
 top_25_alaga <- data_frame_alaga %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_alaga, 
@@ -977,7 +989,8 @@ sort_bisquick <- sort(rowSums(matrix_bisquick_2), decreasing = TRUE)
 data_frame_bisquick <- data.frame(word = names(sort_bisquick), freq = sort_bisquick)
 
 top_25_bisquick <- data_frame_bisquick %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_bisquick, 
@@ -993,7 +1006,7 @@ ggplot(top_25_bisquick,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Bruce's Tweets#
-bruces <- c("bruce's", "pancake")
+bruces <- c("bruces", "pancake")
 bruces_search <- paste(bruces, collapse = " + ")
 bruces_tweets <- search_tweets(q = bruces_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(bruces_tweets)
@@ -1087,7 +1100,8 @@ sort_hungry_jack <- sort(rowSums(matrix_hungry_jack_2), decreasing = TRUE)
 data_frame_hungry_jack <- data.frame(word = names(sort_hungry_jack), freq = sort_hungry_jack)
 
 top_25_hungry_jack <- data_frame_hungry_jack %>%
-  top_n(25)
+  top_n(25) %>%
+  filer(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_hungry_jack, 
@@ -1103,7 +1117,7 @@ ggplot(top_25_hungry_jack,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Newman's Tweets#
-newmans <- c("newman's", "pasta")
+newmans <- c("newmans", "pasta")
 newmans_search <- paste(newmans, collapse = " AND ")
 newmans_tweets <- search_tweets(q = newmans_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(newmans_tweets)
@@ -1195,7 +1209,8 @@ sort_kraft <- sort(rowSums(matrix_kraft_2), decreasing = TRUE)
 data_frame_kraft <- data.frame(word = names(sort_kraft), freq = sort_kraft)
 
 top_25_kraft <- data_frame_kraft %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_kraft, 
@@ -1270,7 +1285,6 @@ sobrab_bkstrp <- c('"sobrab bkstrp"', "syrup")
 sobrab_bkstrp_search <- paste(sobrab_bkstrp, collapse = " AND ")
 sobrab_bkstrp_tweets <- search_tweets(q = sobrab_bkstrp_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(sobrab_bkstrp_tweets)
-#no results mentioning this brand#
 
 head(sobrab_bkstrp_tweets$text)
 
@@ -1320,7 +1334,7 @@ ggplot(top_25_sobrab_bkstrp,
   labs(title = "Word Cloud: Tweets Using the Word - Sobrab Bkstrp",
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
-#Dececco Tweets#
+#Dececco Tweets#- check again
 dececco <- c("dececco", "pasta")
 dececco_search <- paste(dececco, collapse = " AND ")
 dececco_tweets <- search_tweets(q = dececco_search, n = 1000, lang = "en", include_rts = FALSE)
@@ -1359,7 +1373,8 @@ sort_dececco <- sort(rowSums(matrix_dececco_2), decreasing = TRUE)
 data_frame_dececco <- data.frame(word = names(sort_dececco), freq = sort_dececco)
 
 top_25_dececco <- data_frame_dececco %>%
-  top_n(25)
+  top_n(25) %>% 
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_dececco, 
@@ -1413,7 +1428,8 @@ sort_eden <- sort(rowSums(matrix_eden_2), decreasing = TRUE)
 data_frame_eden <- data.frame(word = names(sort_eden), freq = sort_eden)
 
 top_25_eden <- data_frame_eden %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_eden, 
@@ -1590,8 +1606,8 @@ ggplot(top_25_la_russa,
   labs(title = "Word Cloud: Tweets Using the Word - La Russa",
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
-#Hunt's Tweets#
-hunts <- c("hunt's", "pasta")
+#Hunt's Tweets# - check again
+hunts <- c("hunts", "pasta")
 hunts_search <- paste(hunts, collapse = " AND ")
 hunts_tweets <- search_tweets(q = hunts_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(hunts_tweets)
@@ -1629,7 +1645,8 @@ sort_hunts <- sort(rowSums(matrix_hunts_2), decreasing = TRUE)
 data_frame_hunts <- data.frame(word = names(sort_hunts), freq = sort_hunts)
 
 top_25_hunts <- data_frame_hunts %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_hunts, 
@@ -1644,7 +1661,7 @@ ggplot(top_25_hunts,
   labs(title = "Word Cloud: Tweets Using the Word - Hunt's",
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
-#Vita Tweets#
+#Vita Tweets# -check again
 vita <- c("vita", "pasta")
 vita_search <- paste(vita, collapse = " AND ")
 vita_tweets <- search_tweets(q = vita_search, n = 1000, lang = "en", include_rts = FALSE)
@@ -1683,7 +1700,8 @@ sort_vita <- sort(rowSums(matrix_vita_2), decreasing = TRUE)
 data_frame_vita <- data.frame(word = names(sort_vita), freq = sort_vita)
 
 top_25_vita <- data_frame_vita %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_vita, 
@@ -1752,7 +1770,7 @@ ggplot(top_25_maggi_spaetzle,
   labs(title = "Word Cloud: Tweets Using the Word - Maggi Spaetzle",
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
-#Mother's Tweets#
+#Mother's Tweets# -check again
 mothers <- c("mother's", "pasta")
 mothers_search <- paste(mothers, collapse = " AND ")
 mothers_tweets <- search_tweets(q = mothers_search, n = 1000, lang = "en", include_rts = FALSE)
@@ -1761,6 +1779,7 @@ tibble(mothers_tweets)
 head(mothers_tweets$text)
 
 mothers_text <- mothers_tweets$text
+mothers_text
 
 corpus_mothers <- Corpus(VectorSource(mothers_tweets$text))
 
@@ -1791,7 +1810,8 @@ sort_mothers <- sort(rowSums(matrix_mothers_2), decreasing = TRUE)
 data_frame_mothers <- data.frame(word = names(sort_mothers), freq = sort_mothers)
 
 top_25_mothers <- data_frame_mothers %>%
-  top_n(25)
+  top_n(25) %>%
+  filter(freq > 1)
 
 set.seed(1234)
 ggplot(top_25_mothers, 

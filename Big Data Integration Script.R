@@ -6785,7 +6785,9 @@ ggplot(top_25_barilla_plus,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Sinatra's Tweets#
-sinatras_tweets <- search_tweets(q = "sinatra's", n = 1000, lang = "en", include_rts = FALSE)
+sinatras <- c("sinatra's", "pasta")
+sinatras_search <- paste(sinatras, collapse = " AND ")
+sinatras_tweets <- search_tweets(q = sinatras_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(sinatras_tweets)
 
 head(sinatras_tweets$text)
@@ -6813,7 +6815,7 @@ remove_stop_sinatras <- tm_map(remove_num_sinatras, removeWords, stopwords("engl
 
 remove_white_sinatras <- tm_map(remove_stop_sinatras, stripWhitespace)
 
-remove_words_sinatras <- tm_map(remove_white_sinatras, removeWords, c("sinatra's", "sinatras", "sinatra"))
+remove_words_sinatras <- tm_map(remove_white_sinatras, removeWords, c("sinatra's", "sinatras", "sinatra", "pasta", "pastas", "amp"))
 
 matrix_sinatras <- TermDocumentMatrix((remove_words_sinatras))
 matrix_sinatras_2 <- as.matrix(matrix_sinatras)
@@ -6837,7 +6839,9 @@ ggplot(top_25_sinatras,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Mom's Tweets#
-moms_tweets <- search_tweets(q = "mom's", n = 1000, lang = "en", include_rts = FALSE)
+moms <- c("mom's", "pasta")
+moms_search <- paste(moms, collapse = " AND ")
+moms_tweets <- search_tweets(q = moms_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(moms_tweets)
 
 head(moms_tweets$text)
@@ -6865,7 +6869,7 @@ remove_stop_moms <- tm_map(remove_num_moms, removeWords, stopwords("english"))
 
 remove_white_moms <- tm_map(remove_stop_moms, stripWhitespace)
 
-remove_words_moms <- tm_map(remove_white_moms, removeWords, c("mom's", "moms", "mom"))
+remove_words_moms <- tm_map(remove_white_moms, removeWords, c("mom's", "moms", "mom", "pasta", "pastas", "amp"))
 
 matrix_moms <- TermDocumentMatrix((remove_words_moms))
 matrix_moms_2 <- as.matrix(matrix_moms)
@@ -6889,7 +6893,9 @@ ggplot(top_25_moms,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Bionature Tweets#
-bionature_tweets <- search_tweets(q = "bionature", n = 1000, lang = "en", include_rts = FALSE)
+bionature <- c("bionature", "pasta")
+bionature_search <- paste(bionature, collapse = " AND ")
+bionature_tweets <- search_tweets(q = bionature_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(bionature_tweets)
 
 head(bionature_tweets$text)
@@ -6917,7 +6923,7 @@ remove_stop_bionature <- tm_map(remove_num_bionature, removeWords, stopwords("en
 
 remove_white_bionature <- tm_map(remove_stop_bionature, stripWhitespace)
 
-remove_words_bionature <- tm_map(remove_white_bionature, removeWords, c("bionature", "bionatures", "bio", "bios", "nature", "natures"))
+remove_words_bionature <- tm_map(remove_white_bionature, removeWords, c("bionature", "bionatures", "bio", "bios", "nature", "natures", "pasta", "pastas", "amp"))
 
 matrix_bionature <- TermDocumentMatrix((remove_words_bionature))
 matrix_bionature_2 <- as.matrix(matrix_bionature)
@@ -6941,7 +6947,11 @@ ggplot(top_25_bionature,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Private Label Premium Tweets#
-private_label_premium_tweets <- search_tweets(q = "private label premium", n = 1000, lang = "en", include_rts = FALSE)
+private_label_premium <- c("pancake", "pasta", "syrup")
+private_label_premium_combine <- paste(private_label_premium, collapse = " OR ")
+private_label_premium_2 <- c('"private label premium"', private_label_premium_combine)
+private_label_premium_search <- paste(private_label_premium_2, collapse = " AND ")
+private_label_premium_tweets <- search_tweets(q = private_label_premium_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(private_label_premium_tweets)
 
 head(private_label_premium_tweets$text)
@@ -6969,7 +6979,7 @@ remove_stop_private_label_premium <- tm_map(remove_num_private_label_premium, re
 
 remove_white_private_label_premium <- tm_map(remove_stop_private_label_premium, stripWhitespace)
 
-remove_words_private_label_premium <- tm_map(remove_white_private_label_premium, removeWords, c("private label premium", "private", "privates", "label", "labels", "premium", "premiums"))
+remove_words_private_label_premium <- tm_map(remove_white_private_label_premium, removeWords, c("private label premium", "private", "privates", "label", "labels", "premium", "premiums", "pancake", "pancakes", "pasta", "pastas", "syrup", "syrups", "amp"))
 
 matrix_private_label_premium <- TermDocumentMatrix((remove_words_private_label_premium))
 matrix_private_label_premium_2 <- as.matrix(matrix_private_label_premium)
@@ -6993,7 +7003,11 @@ ggplot(top_25_private_label_premium,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Private Label Tweets#
-private_label_tweets <- search_tweets(q = "private label", n = 1000, lang = "en", include_rts = FALSE)
+private_label <- c("pancake", "pasta", "syrup")
+private_label_combine <- paste(private_label, collapse = " OR ")
+private_label_2 <- c('"private label"', private_label_combine)
+private_label_search <- paste(private_label_2, collapse = " AND ")
+private_label_tweets <- search_tweets(q = private_label_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(private_label_tweets)
 
 head(private_label_tweets$text)
@@ -7021,7 +7035,7 @@ remove_stop_private_label <- tm_map(remove_num_private_label, removeWords, stopw
 
 remove_white_private_label <- tm_map(remove_stop_private_label, stripWhitespace)
 
-remove_words_private_label <- tm_map(remove_white_private_label, removeWords, c("private label", "private", "privates", "label", "labels"))
+remove_words_private_label <- tm_map(remove_white_private_label, removeWords, c("private label", "private", "privates", "label", "labels", "pancake", "pancakes", "pasta", "pastas", "syrup", "syrups", "amp"))
 
 matrix_private_label <- TermDocumentMatrix((remove_words_private_label))
 matrix_private_label_2 <- as.matrix(matrix_private_label)
@@ -7045,7 +7059,11 @@ ggplot(top_25_private_label,
        subtitle = "This shows text mining of twitter data. This shows the top 25 words.")
 
 #Private Label Value Tweets#
-private_label_value_tweets <- search_tweets(q = "private label value", n = 1000, lang = "en", include_rts = FALSE)
+private_label_value <- c("pasta", "syrup")
+private_label_value_combine <- paste(private_label_value, collapse = " OR ")
+private_label_value_2 <- c('"private label value"', private_label_value_combine)
+private_label_value_search <- paste(private_label_value_2, collapse = " AND ")
+private_label_value_tweets <- search_tweets(q = private_label_value_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(private_label_value_tweets)
 
 head(private_label_value_tweets$text)
@@ -7073,7 +7091,7 @@ remove_stop_private_label_value <- tm_map(remove_num_private_label_value, remove
 
 remove_white_private_label_value <- tm_map(remove_stop_private_label_value, stripWhitespace)
 
-remove_words_private_label_value <- tm_map(remove_white_private_label_value, removeWords, c("private label value", "private", "privates", "label", "labels", "value", "values"))
+remove_words_private_label_value <- tm_map(remove_white_private_label_value, removeWords, c("private label value", "private", "privates", "label", "labels", "value", "values", "pasta", "pastas", "syrup", "syrups", "amp"))
 
 matrix_private_label_value <- TermDocumentMatrix((remove_words_private_label_value))
 matrix_private_label_value_2 <- as.matrix(matrix_private_label_value)

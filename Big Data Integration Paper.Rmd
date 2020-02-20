@@ -17,6 +17,10 @@ upc | It is a standard 10 digit code assigned to products.
 dollar_sales | The amount of money spent on this product by the customer. These are recorded in dollars.
 units | The quantity of this product purchased. 
 time_of_transaction | The time the transaction occurred. This is recorded in military time. 
+geography | This label tells you where it was purchased out of the two large regions. These two regions consist of multiple values. The value can either be 1 or 2. 
+week | This notifies the week that the transaction occured. The range of values is from 1 to 104. These numbers are assigned chronologically. 
+household | This value is a unique number assigned to a household. This is the purchaser of the product.
+store | This value is a unique number assigned to each store. This is where the product was purchased.
 
 
 ### Data Integration Process 

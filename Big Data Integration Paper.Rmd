@@ -1,0 +1,18 @@
+---
+title: "Big Data Integration Final Paper"
+author: "Sidney Schaeper"
+date: "2/20/2020"
+output: word_document
+---
+### Understanding Our Topic
+### Describe The Tools Used
+### Data Sources
+### Data Integration Process 
+#### Schema Alignment 
+#### Record Linkage 
+#### Data Fusion
+### Business Insights 
+### Analyzing Results 
+### Future Steps 
+### Bibliography 
+### Additonal Significant Code 

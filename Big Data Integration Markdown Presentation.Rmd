@@ -1,0 +1,10 @@
+---
+title: 
+output: 
+  rmarkdown::html_document:
+    theme: yeti
+runtime: shiny
+---
+## Big Data Integration Final {.tabset .tabset-fade .tabset-pills}
+**Authors: Sidney Schaeper **
+

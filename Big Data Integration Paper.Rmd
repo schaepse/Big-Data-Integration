@@ -13,7 +13,7 @@ The data that we wanted to evaluate for this project came from two sources. The 
 
 Variable | Description 
 ---------|------------
-upc | It is a standard 10 digit code assigned to products.
+upc | It is a standard 10 digit code assigned to products. This is the product that was purchased.
 dollar_sales | The amount of money spent on this product by the customer. These are recorded in dollars.
 units | The quantity of this product purchased. 
 time_of_transaction | The time the transaction occurred. This is recorded in military time. 
@@ -21,6 +21,29 @@ geography | This label tells you where it was purchased out of the two large reg
 week | This notifies the week that the transaction occured. The range of values is from 1 to 104. These numbers are assigned chronologically. 
 household | This value is a unique number assigned to a household. This is the purchaser of the product.
 store | This value is a unique number assigned to each store. This is where the product was purchased.
+basket | This is a unique number assigned to a trip to the store. This is the trip that this product was assigned to. 
+day | This is the day that this product was purchased. The range of values is 1 to 728. 
+coupon | This is dummy variable to notify whether a coupon was used. The possible value is 1 or 0. 1 means a coupon was used. 0 means a coupon wasn't used. 
+
+**Store Lookup Dataset Table**
+
+Variable | Description 
+---------|------------
+store | This value is a unique number assigned to each store.
+store_zip_code | This is the 5 digit zip code for the store. 
+
+**Product Lookup Dataset Table**
+
+Variable | Description
+---------|------------
+upc | This is the standard 10 digit code assigned to this product. 
+product_description | This details the product. This likely contains the name of the product.
+commodity | This is the category of the product. The four possibly values are pasta, pasta sauce, pancake mix, or syrup. 
+brand | This is the brand name of the product. 
+product_size | This is the size of the product. These aren't all in the same measurement. 
+
+**Casual Lookup Dataset Table**
+
 
 
 ### Data Integration Process 

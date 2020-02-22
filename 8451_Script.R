@@ -1,6 +1,8 @@
 library(readr)
 library(dplyr)
 library(tidyverse)
+install.packages("tibble")
+library(tibble)
 
 setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
 
@@ -8,4 +10,6 @@ setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
 transaction <- read_csv("transactions.csv")
 causal <- read_csv("causal_lookup.csv")
 #I might want to join these by store and upc for these too#
-
+transaction_group <- transaction %>%
+  select(upc, dollar_sales, store) %>%
+  group_by(upc, store)

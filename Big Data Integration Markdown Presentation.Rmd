@@ -8,6 +8,3 @@ runtime: shiny
 ## Big Data Integration Final {.tabset .tabset-fade .tabset-pills}
 **Authors: Sidney Schaeper **
 
-Variable | Description 
----------|------------
-upc | It is a standard 10 digit code assigned to products.

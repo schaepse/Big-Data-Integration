@@ -16,6 +16,8 @@ The following are the intital questions we thought we could answer with our data
 * Does location of the product within the store and ad impact sales of the product? What is the optimal location within the store and ads?
 * What amounts of each product should we plan to have in inventory on average daily based on these sales?  
 
+We thought the first question would be insightful to the business, because a company should know what customers think of the brands they partner with. A company likely wouldn't want to work with a brand that has a bad image to its customers, because they likely wouldn't sell many of the products associated with that brand. In addition, we considered the second question to be a great question to answer, because we thought this could help Kroger's marketing strategy. The marketing strategy would be improved with this knowledge, because the marketers would have more knowledge of the optimal locations for high product sales in the weekly ad and stores. The final question would be great for a busines to know, because this knowledge would help improve a company's inventory strategy. This strategy would improve, because you possibly could improve your inventory prediction levels for each store from using the data instead of just guessing. 
+
 ### Tools Used
 
 

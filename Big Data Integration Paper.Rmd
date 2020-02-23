@@ -13,6 +13,8 @@ We had a variety of questions we wanted to answer in this project. We formualted
 
 For the first question, we thought that the twitter dataset, product_lookup dataset, and transactions dataset would provide us insight into answering this question. For the second question, we thought that the transactions dataset and casual_lookup dataset would provide us information into answering this question. For the third question, we thought that the transactions dataset, store_lookup dataset, and product_lookup dataset would help us discover the answer to this question. 
 
+We thought the first question would be insightful to the business, because a company should know what customers think of the brands they partner with. A company likely wouldn't want to work with a brand that has a bad image to its customers, because they likely wouldn't sell many of the products associated with that brand. 
+
 ### Describe The Tools Used
 The tool that we used for this project was 
 

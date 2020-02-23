@@ -5,6 +5,84 @@ output:
     theme: yeti
 runtime: shiny
 ---
-## Big Data Integration Final {.tabset .tabset-fade .tabset-pills}
-**Authors: Sidney Schaeper **
+## **Big Data Integration Final** {.tabset .tabset-fade .tabset-pills}
+**Authors: Sidney Schaeper, Aman Rastogi, Keya Satpathy, Bhawna Saini, Prathiba Swamykannu**
 
+### Initial Questions for the Project
+#### **Initial Questions for Our Evaluation**
+The following are the intital questions we thought we could answer with our data sources: 
+
+* Should we continue to do business with our five worst performing brands based on the perspective of customers?
+* Does location of the product within the store and ad impact sales of the product? What is the optimal location within the store and ads?
+* What amounts of each product should we plan to have in inventory on average daily based on these sales?  
+
+### Tools Used
+
+### Data Sources
+#### **84.51 Data Source**
+The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the casual_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description. 
+
+**Transactions Dataset Table**
+
+Variable | Description 
+---------|------------
+upc | It is a standard 10 digit code assigned to products. This is the product that was purchased.
+dollar_sales | The amount of money spent on this product by the customer. These are recorded in dollars.
+units | The quantity of this product purchased. 
+time_of_transaction | The time the transaction occurred. This is recorded in military time. 
+geography | This label tells you where it was purchased out of the two large regions. These two regions consist of multiple states. The value can either be 1 or 2. 
+week | This notifies the week that the transaction occured. The range of values is from 1 to 104. These numbers are assigned chronologically. 
+household | This value is a unique number assigned to a household. This is the purchaser of the product.
+store | This value is a unique number assigned to each store. This is where the product was purchased.
+basket | This is a unique number assigned to a trip to the store. This is the trip that this product was assigned to. 
+day | This is the day that this product was purchased. The range of values is 1 to 728. 
+coupon | This is dummy variable to notify whether a coupon was used. The possible value is 1 or 0. 1 means a coupon was used. 0 means a coupon wasn't used. 
+
+**Store Lookup Dataset Table**
+
+Variable | Description 
+---------|------------
+store | This value is a unique number assigned to each store.
+store_zip_code | This is the 5 digit zip code for the store. 
+
+**Product Lookup Dataset Table**
+
+Variable | Description
+---------|------------
+upc | This is the standard 10 digit code assigned to this product. 
+product_description | This details the product. This likely contains the name of the product.
+commodity | This is the category of the product. The four possibly values are pasta, pasta sauce, pancake mix, or syrup. 
+brand | This is the brand name of the product. 
+product_size | This is the size of the product. These aren't all in the same measurement. 
+
+**Casual Lookup Dataset Table**
+
+Variable | Description
+---------|------------
+upc | This is the standard 10 digit code assigned to this product. 
+store | This value is a unique number assigned to each store.
+week | This notifies the week that the transaction occured. The range of values is from 1 to 104. These numbers are assigned chronologically. 
+feature_desc | This is where the product is located on the weekly ad. 
+display_desc | This is where the product is displayed in the store. 
+geography | This label tells you where it was purchased out of the two large regions. These two regions consist of multiple states. The value can either be 1 or 2. 
+
+#### **Twitter Data Source**
+The final source of data we used for our projet was from [Twitter](http://apps.twitter.com). We had to create a developer account in order to get access to these tweets. In this project, we were hoping to pull this data manually to get customer opinions about brands. The way we pulled these tweets down manually was through using the search tweets package in R, and we searched through twitter to find these tweets by searching on the brand name and the food category of the brand. Next, we cleaned these results by focusing just on the tweet, removing emojis, removing urls, lowering the case of the tweets, removing the punctation, removing the numbers, removing stop words, removing white space, and removing additional words that we don't want to evaluate. After we cleaned the tweets, we separated the tweets into words, counted these words, and filtered on the top 25 words. After collecting these results, we created a data frame from all these results. If a brand and category didn't show a result, we put NA for these word results. Below is a table of the dataset we created manually, and this table shows the variables and description. 
+
+**Twitter Dataset Table**
+
+Variable | Description 
+---------|------------
+brand | This is the name of the brand. 
+word | These are the words that showed up in the top 25 filter.
+freq | These are the counts of the word showing up in the tweets.
+
+### Data Integration Process
+
+### Results 
+
+### Lessons Learned 
+
+### Issues Encountered
+
+### Possible Future Steps 

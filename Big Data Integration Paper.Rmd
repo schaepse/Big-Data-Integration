@@ -1,10 +1,18 @@
 ---
 title: "Big Data Integration Final Paper"
-author: "Sidney Schaeper"
+author: "Sidney Schaeper, Aman Rastogi, Keya Satpathy, Bhawna Saini, Prathiba Swamykannu"
 date: "2/20/2020"
 output: word_document
 ---
 ### Understanding Our Topic
+We had a variety of questions we wanted to answer in this project. We formualted these questions after evalauting our 84.51 datasets and the twitter data. The following are the questions we hoped to answer. 
+
+* Should we continue to do business with our five worst performing brands based on the perspective of customers?
+* Does location of the product within the store and ad impact sales of the product? What is the optimal location within the store and ads?
+* What amounts of each product should we plan to have in inventory on average daily based on these sales?  
+
+For the first question, we thought that the twitter dataset, product_lookup dataset, and transactions dataset would provide us insight into answering this question. For the second question, we thought that the transactions dataset and casual_lookup dataset would provide us information into answering this question. For the third question, we thought that the transactions dataset, store_lookup dataset, and product_lookup dataset would help us discover the answer to this question. 
+
 ### Describe The Tools Used
 The tool that we used for this project was 
 

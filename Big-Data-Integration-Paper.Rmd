@@ -2,7 +2,7 @@
 title: "Big Data Integration Final Paper"
 author: "Sidney Schaeper, Aman Rastogi, Keya Satpathy, Bhawna Saini, Prathiba Swamykannu"
 date: "2/20/2020"
-output: word_document
+output:  word_document
 ---
 ### Understanding Our Topic
 We had a variety of questions we wanted to answer in this project. We formualted these questions after evalauting our 84.51 datasets and the twitter data. The following are the questions we hoped to answer. 
@@ -17,6 +17,22 @@ We thought the first question would be insightful to the business, because a com
 
 ### Describe The Tools Used
 The tool that we used for this project was R Studio.
+
+```{r eval = FALSE}
+#Packages that needed to be installed for the project#
+install.packages("readr")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("kableExtra")
+```
+
+```{r warning = FALSE, message = FALSE}
+#Packages that need to be found for the project#
+library(readr)
+library(dplyr)
+library(tidyr)
+library(kableExtra)
+```
 
 ### 84.51 Data Source
 The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the casual_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description. 
@@ -65,6 +81,21 @@ feature_desc | This is where the product is located on the weekly ad.
 display_desc | This is where the product is displayed in the store. 
 geography | This label tells you where it was purchased out of the two large regions. These two regions consist of multiple states. The value can either be 1 or 2. 
 
+```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
+#Set the working directory#
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+
+#Read the datasets into R#
+causal <- read_csv("causal_lookup.csv")
+transaction <- read_csv("transactions.csv")
+```
+
+```{r}
+#View snippets of the dataset#
+head(causal)
+head(transaction)
+```
+
 ### Twitter Data Source
 The final source of data we used for our projet was from [Twitter](http://apps.twitter.com). We had to create a developer account in order to get access to these tweets. In this project, we were hoping to pull this data manually to get customer opinions about brands. The way we pulled these tweets down manually was through using the search tweets package in R, and we searched through twitter to find these tweets by searching on the brand name and the food category of the brand. Next, we cleaned these results by focusing just on the tweet, removing emojis, removing urls, lowering the case of the tweets, removing the punctation, removing the numbers, removing stop words, removing white space, and removing additional words that we don't want to evaluate. After we cleaned the tweets, we separated the tweets into words, counted these words, and filtered on the top 25 words. After collecting these results, we created a data frame from all these results. If a brand and category didn't show a result, we put NA for these word results. Below is a table of the dataset we created manually, and this table shows the variables and description. 
 
@@ -78,11 +109,68 @@ freq | These are the counts of the word showing up in the tweets.
 
 
 ### Data Integration Process 
-#### Schema Alignment 
+```{r}
+#Clean the files before the inner join for Question 2#
+causal_select <- causal %>%
+  select(upc, store, week, feature_desc, display_desc)
+transaction_clean <- transaction %>%
+  filter(week > 42) %>%
+  select(upc, dollar_sales, units, week, store)
+
+#Inner join for Question 2#
+causal_trans <- inner_join(causal_select, transaction_clean, by = c("upc", "store", "week"))
+tibble(causal_trans)
+```
+### Schema Alignment 
 #### Record Linkage 
 #### Data Fusion
-### Business Insights 
-### Analyzing Results 
+### Final Results and Analyzing These Results 
+```{r}
+#Editing of the Combined Dataset to Find the Answers#
+#Feature Description#
+causal_trans_feature_dollar <- causal_trans %>%
+  select(feature_desc, dollar_sales)%>%
+  group_by(feature_desc) %>%
+  summarise(Total_Dollar_Sales = sum(dollar_sales, na.rm = TRUE)) %>%
+  arrange(desc(Total_Dollar_Sales))
+causal_trans_feature_dollar
+
+causal_trans_feature_units <- causal_trans %>%
+  select(feature_desc, units)%>%
+  group_by(feature_desc) %>%
+  summarise(Total_Units = sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Total_Units))
+causal_trans_feature_units
+
+causal_trans_feature_units_dollar <- causal_trans %>%
+  select(feature_desc, units, dollar_sales)%>%
+  group_by(feature_desc) %>%
+  summarise(Sales_Divided_By_Units = sum(dollar_sales, na.rm = TRUE)/sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Sales_Divided_By_Units))
+causal_trans_feature_units_dollar
+
+#Display_desc#
+causal_trans_display_dollar <- causal_trans %>%
+  select(display_desc, dollar_sales)%>%
+  group_by(display_desc) %>%
+  summarise(Total_Dollar_Sales = sum(dollar_sales, na.rm = TRUE)) %>%
+  arrange(desc(Total_Dollar_Sales))
+causal_trans_display_dollar
+
+causal_trans_display_units <- causal_trans %>%
+  select(display_desc, units)%>%
+  group_by(display_desc) %>%
+  summarise(Total_Units = sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Total_Units))
+causal_trans_display_units
+
+causal_trans_display_units_dollar <- causal_trans %>%
+  select(display_desc, units, dollar_sales)%>%
+  group_by(display_desc) %>%
+  summarise(Sales_Divided_By_Units = sum(dollar_sales, na.rm = TRUE)/sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Sales_Divided_By_Units))
+causal_trans_display_units_dollar
+```
 ### Future Steps 
 ### Bibliography 
 ### Additonal Significant Code 

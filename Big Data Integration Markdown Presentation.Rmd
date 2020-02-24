@@ -20,6 +20,23 @@ We thought the first question would be insightful to the business, because a com
 
 ### Tools Used
 
+```{r eval = FALSE}
+#Packages that needed to be installed for the project#
+install.packages("readr")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("shiny")
+install.packages("DT")
+```
+
+```{r results = "hide", warning = FALSE, message = FALSE}
+#Packages that need to be found for the project#
+library(readr)
+library(dplyr)
+library(tidyr)
+library(shiny)
+library(DT)
+```
 
 ### Data Sources
 #### **84.51 Data Source**
@@ -40,6 +57,7 @@ store | This value is a unique number assigned to each store. This is where the 
 basket | This is a unique number assigned to a trip to the store. This is the trip that this product was assigned to. 
 day | This is the day that this product was purchased. The range of values is 1 to 728. 
 coupon | This is dummy variable to notify whether a coupon was used. The possible value is 1 or 0. 1 means a coupon was used. 0 means a coupon wasn't used. 
+
 
 **Store Lookup Dataset Table**
 
@@ -69,6 +87,23 @@ feature_desc | This is where the product is located on the weekly ad.
 display_desc | This is where the product is displayed in the store. 
 geography | This label tells you where it was purchased out of the two large regions. These two regions consist of multiple states. The value can either be 1 or 2. 
 
+```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
+#Set the working directory#
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+
+#Read the datasets into R#
+causal <- read_csv("causal_lookup.csv")
+transaction <- read_csv("transactions.csv")
+```
+
+```{r}
+#See a partial view of the casual_lookup dataset#
+datatable(head(causal))
+
+#See a partial view of the transactions dataset#
+datatable(head(transaction))
+```
+
 #### **Twitter Data Source**
 The final source of data we used for our projet was from [Twitter](http://apps.twitter.com). We had to create a developer account in order to get access to these tweets. In this project, we were hoping to pull this data manually to get customer opinions about brands. The way we pulled these tweets down manually was through using the search tweets package in R, and we searched through twitter to find these tweets by searching on the brand name and the food category of the brand. Next, we cleaned these results by focusing just on the tweet, removing emojis, removing urls, lowering the case of the tweets, removing the punctation, removing the numbers, removing stop words, removing white space, and removing additional words that we don't want to evaluate. After we cleaned the tweets, we separated the tweets into words, counted these words, and filtered on the top 25 words. After collecting these results, we created a data frame from all these results. If a brand and category didn't show a result, we put NA for these word results. Below is a table of the dataset we created manually, and this table shows the variables and description. 
 
@@ -81,8 +116,66 @@ word | These are the words that showed up in the top 25 filter.
 freq | These are the counts of the word showing up in the tweets.
 
 ### Data Integration Process
+```{r}
+#Clean the files before the Inner Join for Question 2#
+causal_select <- causal %>%
+  select(upc, store, week, feature_desc, display_desc)
+transaction_clean <- transaction %>%
+  filter(week > 42) %>%
+  select(upc, dollar_sales, units, week, store)
+
+#Inner join for Question 2#
+causal_trans <- inner_join(causal_select, transaction_clean, by = c("upc", "store", "week"))
+datatable(head(causal_trans))
+```
 
 ### Results 
+```{r}
+#Editing of the Combined Dataset to Find the Answers for Question 2#
+#Feature Description#
+causal_trans_feature_dollar <- causal_trans %>%
+  select(feature_desc, dollar_sales)%>%
+  group_by(feature_desc) %>%
+  summarise(Total_Dollar_Sales = sum(dollar_sales, na.rm = TRUE)) %>%
+  arrange(desc(Total_Dollar_Sales))
+datatable(causal_trans_feature_dollar)
+
+causal_trans_feature_units <- causal_trans %>%
+  select(feature_desc, units)%>%
+  group_by(feature_desc) %>%
+  summarise(Total_Units = sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Total_Units))
+datatable(causal_trans_feature_units)
+
+causal_trans_feature_units_dollar <- causal_trans %>%
+  select(feature_desc, units, dollar_sales)%>%
+  group_by(feature_desc) %>%
+  summarise(Sales_Divided_By_Units = sum(dollar_sales, na.rm = TRUE)/sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Sales_Divided_By_Units))
+datatable(causal_trans_feature_units_dollar)
+
+#Display_desc#
+causal_trans_display_dollar <- causal_trans %>%
+  select(display_desc, dollar_sales)%>%
+  group_by(display_desc) %>%
+  summarise(Total_Dollar_Sales = sum(dollar_sales, na.rm = TRUE)) %>%
+  arrange(desc(Total_Dollar_Sales))
+datatable(causal_trans_display_dollar)
+
+causal_trans_display_units <- causal_trans %>%
+  select(display_desc, units)%>%
+  group_by(display_desc) %>%
+  summarise(Total_Units = sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Total_Units))
+datatable(causal_trans_display_units)
+
+causal_trans_display_units_dollar <- causal_trans %>%
+  select(display_desc, units, dollar_sales)%>%
+  group_by(display_desc) %>%
+  summarise(Sales_Divided_By_Units = sum(dollar_sales, na.rm = TRUE)/sum(units, na.rm = TRUE)) %>%
+  arrange(desc(Sales_Divided_By_Units))
+datatable(causal_trans_display_units_dollar)
+```
 
 ### Lessons Learned 
 

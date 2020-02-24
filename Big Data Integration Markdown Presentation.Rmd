@@ -94,6 +94,8 @@ setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
 transaction <- read_csv("transactions.csv")
+product <-read_csv("product_lookup.csv")
+store <- read_csv("store_lookup.csv")
 ```
 
 ```{r}
@@ -102,6 +104,12 @@ datatable(head(causal))
 
 #See a partial view of the transactions dataset#
 datatable(head(transaction))
+
+#See a partial view of the product lookup dataset#
+datatable(head(product))
+
+#See a partial view of the store lookup dataset#
+datatable(head(store))
 ```
 
 #### **Twitter Data Source**
@@ -127,6 +135,25 @@ transaction_clean <- transaction %>%
 #Inner join for Question 2#
 causal_trans <- inner_join(causal_select, transaction_clean, by = c("upc", "store", "week"))
 datatable(head(causal_trans))
+```
+
+```{r}
+#Match the data types of upc#
+product_transform <- transform(product, upc = as.character(upc))
+
+#Select the columns needed from each of the datasets for Question 3#
+transaction_select <- transaction %>%
+  select(upc, units, week, store, day)
+product_select <- product_transform %>%
+  select(upc, product_description)
+store_select <- store %>%
+  select(store, store_zip_code)
+
+#Inner join on all these datasets for Question 3#
+transaction_product <- inner_join(transaction_select, product_select, by = "upc")
+head(transaction_product)  
+transaction_product_store <- inner_join(transaction_product, store_select, by = "store")
+head(transaction_product_store)
 ```
 
 ### Results 
@@ -175,6 +202,32 @@ causal_trans_display_units_dollar <- causal_trans %>%
   summarise(Sales_Divided_By_Units = sum(dollar_sales, na.rm = TRUE)/sum(units, na.rm = TRUE)) %>%
   arrange(desc(Sales_Divided_By_Units))
 datatable(causal_trans_display_units_dollar)
+```
+
+```{r}
+#Code to get Answers for Question 3#
+combine_day_sum <- transaction_product_store %>%
+  group_by(day, product_description) %>%
+  summarise(Sum_Quantity_by_Day = sum(units, na.rm = TRUE))
+#Preview of dataset for paper#
+head(combine_day_sum)
+#Shiny table for presentation#
+shinyApp(
+  ui = fluidPage(selectInput("day", "Select the day you want to evaluate:", 
+                             choices = sort(unique(combine_day_sum$day)), multiple = TRUE),
+                 selectInput("product_description", "Select the product you want to evaluate:",
+                             choices = sort(unique(combine_day_sum$product_description)), multiple = TRUE), 
+                 DT::dataTableOutput('tbl')), 
+                 server = function(input, output) {selected_data_tab <- reactive({
+                   req(input$day)
+                   req(input$product_description)
+                   combine_day_sum %>%
+                     dplyr::filter(day %in% input$day & product_description %in% input$product_description)})
+                 output$tbl = DT::renderDataTable(
+                   selected_data_tab(), options = list(lengthChange = FALSE), 
+                                                  caption = 
+                     "This table shows the quantity of each product by day that could possibly be planned for inventory.")},
+                 options = list(height = 1200))
 ```
 
 ### Lessons Learned 

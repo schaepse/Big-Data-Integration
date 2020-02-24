@@ -227,7 +227,7 @@ shinyApp(
                    selected_data_tab(), options = list(lengthChange = FALSE), 
                                                   caption = 
                      "This table shows the quantity of each product by day that could possibly be planned for inventory.")},
-                 options = list(height = 1200))
+                 options = list(height = 400))
 ```
 
 ### Lessons Learned 

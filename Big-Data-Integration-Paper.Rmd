@@ -126,7 +126,7 @@ tibble(causal_trans)
 #### Data Fusion
 ### Final Results and Analyzing These Results 
 ```{r}
-#Editing of the Combined Dataset to Find the Answers#
+#Editing of the Combined Dataset to Find the Answers for Question 2#
 #Feature Description#
 causal_trans_feature_dollar <- causal_trans %>%
   select(feature_desc, dollar_sales)%>%

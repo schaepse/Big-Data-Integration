@@ -93,7 +93,7 @@ geography | This label tells you where it was purchased out of the two large reg
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-knitr::opts_knit$set(root.dir = getwd())
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
 
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
@@ -297,8 +297,10 @@ ggplot(data = combine_day_time, aes(x = day, y = Total_Quantity_Day, group=1)) +
 #Part 3#
 #Select the columns we need for the zip data#
 zip_map_data <- transaction_product_store_zip %>%
-  select(Zip, Latitude, Longitude, Total_Quantity_Zip)
-datatable(head(zip_map_data))
+  select(Zip, Latitude, Longitude, Total_Quantity_Zip) %>%
+  arrange(desc(Total_Quantity_Zip))
+#Shows the top 5 Zips for Total Quantity Sold#
+datatable(head(zip_map_data, 5))
 
 #Making the map to see where the most products are sold by zip code#
 #styling the map#

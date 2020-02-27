@@ -256,7 +256,7 @@ head(combine_day_sum)
 #The shiny table we created to show these results can be found on website for the presentation. The image below is a snippet of it. The code we used to create this table is found in the additional code section of the paper.#
 ```
 
-![](~/Pictures/Shiny_Table_Big_Data.JPG)
+
 
 ```{r}
 #Part 2#
@@ -283,11 +283,12 @@ ggplot(data = combine_day_time, aes(x = day, y = Total_Quantity_Day, group=1)) +
 
 ```{r}
 #Part 3#
-#Select the columns we need for the zip data#
+#Select the columns we need for the zip data and arrange it in descending order by Total Quanity Sold#
 zip_map_data <- transaction_product_store_zip %>%
-  select(Zip, Latitude, Longitude, Total_Quantity_Zip)
-#This is a preview of the dataset we used to create the map in our presentation.#
-head(zip_map_data)
+  select(Zip, Latitude, Longitude, Total_Quantity_Zip) %>%
+  arrange(desc(Total_Quantity_Zip))
+#This is a preview of the dataset we used to create the map in our presentation. Also, it shows the Top 5 zip codes for quanity sold#
+head(zip_map_data, 5)
 #We can't display the map because it is interactive. Below is an image of what the maap looks like. The code we used will be found in the additional code section of the paper#
 ```
 

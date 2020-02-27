@@ -93,7 +93,7 @@ geography | This label tells you where it was purchased out of the two large reg
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+knitr::opts_knit$set(root.dir = getwd())
 
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
@@ -163,7 +163,7 @@ datatable(head(causal_trans))
 ```
 
 ```{r}
-#Make some transformations of the data#
+#Make some transformations of the data for Question 3#
 product_transform <- transform(product, upc = as.character(upc))
 store_transform <- transform(store, store_zip_code = as.character(store_zip_code))
 names(store_transform)[2] <- "Zip"
@@ -193,7 +193,6 @@ head(transaction_product_store)
 zip_map_data_2 <- transaction_product_store %>%
   group_by(Zip) %>%
   summarise(Total_Quantity_Zip = sum(units, na.rm = TRUE))
-head(zip_map_data_2)
 
 #Inner join on zip and transaction product store#
 transaction_product_store_zip <- inner_join(zip_map_data_2, zip_transform, by = "Zip")
@@ -255,8 +254,7 @@ datatable(causal_trans_display_units_dollar)
 combine_day_sum <- transaction_product_store %>%
   group_by(day, product_description) %>%
   summarise(Sum_Quantity_by_Day = sum(units, na.rm = TRUE))
-#Preview of dataset for paper#
-head(combine_day_sum)
+
 #Shiny table for presentation to allow a user to see how much quanity of a product was bought each day#
 shinyApp(
   ui = fluidPage(selectInput("day", "Select the day you want to evaluate:", 
@@ -300,7 +298,7 @@ ggplot(data = combine_day_time, aes(x = day, y = Total_Quantity_Day, group=1)) +
 #Select the columns we need for the zip data#
 zip_map_data <- transaction_product_store_zip %>%
   select(Zip, Latitude, Longitude, Total_Quantity_Zip)
-head(zip_map_data)
+datatable(head(zip_map_data))
 
 #Making the map to see where the most products are sold by zip code#
 #styling the map#

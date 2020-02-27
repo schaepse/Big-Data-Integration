@@ -27,6 +27,8 @@ install.packages("dplyr")
 install.packages("tidyr")
 install.packages("shiny")
 install.packages("DT")
+install.packages("ggplot2")
+install.packages("plotly")
 ```
 
 ```{r results = "hide", warning = FALSE, message = FALSE}
@@ -36,6 +38,8 @@ library(dplyr)
 library(tidyr)
 library(shiny)
 library(DT)
+library(ggplot2)
+library(plotly)
 ```
 
 ### Data Sources
@@ -123,6 +127,27 @@ brand | This is the name of the brand.
 word | These are the words that showed up in the top 25 filter.
 freq | These are the counts of the word showing up in the tweets.
 
+##### **Zip Data Source**
+
+**Zip Dataset Table**
+
+Variable | Description
+---------|------------
+zip| zip code
+
+```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
+#Set the working directory#
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+
+#Read the zip dataset into R#
+zip <- read_csv("zip.csv")
+```
+
+```{r}
+#See a partial view of the dataset#
+datatable(head(zip))
+```
+
 ### Data Integration Process
 ```{r}
 #Clean the files before the Inner Join for Question 2#
@@ -138,22 +163,41 @@ datatable(head(causal_trans))
 ```
 
 ```{r}
-#Match the data types of upc#
+#Make some transformations of the data#
 product_transform <- transform(product, upc = as.character(upc))
+store_transform <- transform(store, store_zip_code = as.character(store_zip_code))
+names(store_transform)[2] <- "Zip"
+zip_transform <- transform(zip, Zip = as.character(Zip))
+```
 
+```{r}
 #Select the columns needed from each of the datasets for Question 3#
 transaction_select <- transaction %>%
   select(upc, units, week, store, day)
 product_select <- product_transform %>%
   select(upc, product_description)
-store_select <- store %>%
-  select(store, store_zip_code)
+store_select <- store_transform %>%
+  select(store, Zip)
 
 #Inner join on all these datasets for Question 3#
 transaction_product <- inner_join(transaction_select, product_select, by = "upc")
 head(transaction_product)  
 transaction_product_store <- inner_join(transaction_product, store_select, by = "store")
 head(transaction_product_store)
+```
+
+```{r}
+#Additional inner join for question 3 for creating the zip code map#
+#Group the data by zip code and the sum the quanity of products sold in these zip codes#
+head(transaction_product_store)
+zip_map_data_2 <- transaction_product_store %>%
+  group_by(Zip) %>%
+  summarise(Total_Quantity_Zip = sum(units, na.rm = TRUE))
+head(zip_map_data_2)
+
+#Inner join on zip and transaction product store#
+transaction_product_store_zip <- inner_join(zip_map_data_2, zip_transform, by = "Zip")
+head(transaction_product_store_zip)
 ```
 
 ### Results 
@@ -206,12 +250,14 @@ datatable(causal_trans_display_units_dollar)
 
 ```{r}
 #Code to get Answers for Question 3#
+#Part 1#
+#Group the data by day and product description and create a calculation to sum the units by day#
 combine_day_sum <- transaction_product_store %>%
   group_by(day, product_description) %>%
   summarise(Sum_Quantity_by_Day = sum(units, na.rm = TRUE))
 #Preview of dataset for paper#
 head(combine_day_sum)
-#Shiny table for presentation#
+#Shiny table for presentation to allow a user to see how much quanity of a product was bought each day#
 shinyApp(
   ui = fluidPage(selectInput("day", "Select the day you want to evaluate:", 
                              choices = sort(unique(combine_day_sum$day)), multiple = TRUE),
@@ -228,7 +274,60 @@ shinyApp(
                                                   caption = 
                      "This table shows the quantity of each product by day that could possibly be planned for inventory.")},
                  options = list(height = 400))
+
+#Part 2#
+#Group the data by day, sum the units of the day, and arrange it by day#
+combine_day_time <- transaction_product_store %>%
+  group_by(day) %>%
+  summarise(Total_Quantity_Day = sum(units, na.rm = TRUE)) %>%
+  arrange(day)
+#Preview the dataset#
+datatable(head(combine_day_time))
+
+#Find the top 5 days when products were sold#
+top_5_days <- combine_day_time %>%
+  arrange(desc(Total_Quantity_Day)) %>%
+  head(5)
+datatable(top_5_days)
+
+#Create a line graph showing the quantity sold over time#
+ggplot(data = combine_day_time, aes(x = day, y = Total_Quantity_Day, group=1)) +
+  geom_line() +
+  geom_point() +
+  ggtitle("Quantity Over Time", subtitle = "This shows the quantity over all the days recorded in the dataset.")
+
+#Part 3#
+#Select the columns we need for the zip data#
+zip_map_data <- transaction_product_store_zip %>%
+  select(Zip, Latitude, Longitude, Total_Quantity_Zip)
+head(zip_map_data)
+
+#Making the map to see where the most products are sold by zip code#
+#styling the map#
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showland = TRUE,
+  landcolor = toRGB("gray95"),
+  subunitcolor = toRGB("gray85"),
+  countrycolor = toRGB("gray85"),
+  countrywidth = 0.5,
+  subunitwidth = 0.5
+)
+
+map <- plot_geo(zip_map_data, lat = ~Latitude, lon = ~Longitude)
+map <- map %>% add_markers(
+  text = ~paste(paste("Zip Code:", Zip), paste("Units:", Total_Quantity_Zip), sep = "<br />"),
+  color = ~Total_Quantity_Zip, symbol = I("circle"), size = I(8), hoverinfo = "text"
+)
+map <- map %>% colorbar(title = "Total Units Sold")
+map <- map %>% layout(
+  title = 'Total Units Sold by Zip<br /> (Hover over the circle to see the units sold and zip)', geo = g)
+
+map
 ```
+
+
 
 ### Lessons Learned 
 

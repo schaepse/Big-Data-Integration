@@ -181,22 +181,21 @@ store_select <- store_transform %>%
 
 #Inner join on all these datasets for Question 3#
 transaction_product <- inner_join(transaction_select, product_select, by = "upc")
-head(transaction_product)  
+datatable(head(transaction_product))  
 transaction_product_store <- inner_join(transaction_product, store_select, by = "store")
-head(transaction_product_store)
+datatable(head(transaction_product_store))
 ```
 
 ```{r}
 #Additional inner join for question 3 for creating the zip code map#
 #Group the data by zip code and the sum the quanity of products sold in these zip codes#
-head(transaction_product_store)
 zip_map_data_2 <- transaction_product_store %>%
   group_by(Zip) %>%
   summarise(Total_Quantity_Zip = sum(units, na.rm = TRUE))
 
 #Inner join on zip and transaction product store#
 transaction_product_store_zip <- inner_join(zip_map_data_2, zip_transform, by = "Zip")
-head(transaction_product_store_zip)
+datatable(head(transaction_product_store_zip))
 ```
 
 ### Results 
@@ -295,7 +294,7 @@ ggplot(data = combine_day_time, aes(x = day, y = Total_Quantity_Day, group=1)) +
   ggtitle("Quantity Over Time", subtitle = "This shows the quantity over all the days recorded in the dataset.")
 
 #Part 3#
-#Select the columns we need for the zip data#
+#Select the columns we need for the zip data and arrange it in descending order by Total Quanity Sold#
 zip_map_data <- transaction_product_store_zip %>%
   select(Zip, Latitude, Longitude, Total_Quantity_Zip) %>%
   arrange(desc(Total_Quantity_Zip))

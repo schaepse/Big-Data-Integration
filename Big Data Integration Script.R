@@ -15,6 +15,8 @@ library(rtweet)
 library(tm)
 library(ggwordcloud)
 
+?search_tweets
+
 #Vincent's Tweets#
 vincents <- c("vincents", "pasta")
 vincents_search <- paste(vincents, collapse = " AND ")

@@ -224,9 +224,18 @@ At the initial stages of your big data analysis, you're not going to possess the
 
 The traditional approach of schema alignment consists of three main steps - creating a mediated schema, attribute matching and schema mapping. First, a mediated schema is created by unifying the schemas of the data sources being integrated. Queries to the data integration system are formulated on this mediated schema. Next is the attribute matching step which specifies how attribute values from different schemas are to be matched for equality in the mediated schema. In many cases the attribute correspondence is one-to-one however, sometimes one attribute may correspond to a combination of several attributes in the source schema. The last stage is the Schema Mapping which is built between each source schema and the mediated schema. The problem of establishing associations between data under different schemas is at the core of many data integration and data sharing tasks.
 
-But during our data analysis, we came to the conclusion that, data provided by 8451 is homogeneous and every table is independent. The most significant conclusion that team withdrew during the analysis was every table was linked with other table using Foreign Keys. Finally, again reading the carbo-loading paper, the team gets to know that, the dataset provided by the 8451 is subset of their relational databases, and these datasets belong to the same dataset, hence we didn't require to do schema alignment.
 #### Record Linkage 
+After creating a mediated schema by integrating different sources, we observe that different sources provide value for the same attribute of the same entity. These values may often differ due to mistyping, multiple naming conventions and so on. For instance, the column for date of birth can be named as ‘birth date’ in one schema and ‘dob’ in the other. These representational differences make it hard to link such similar records even though they refer to the same entity. Record linkage attempts to link such millions of records obtained from tens to thousands of data sources.
+
+The process of record linkage starts with pairwise matching where a pair of records are compared to make a local decision of whether they refer to the same entity or not. But often this local decision making may not be globally consistent.
+
 #### Data Fusion
+Often while combining data from different sources to create a mediated data schema, we find that such different sources provide conflicting values for the same attribute of the same entity. These conflicts can arise because of mistyping, miscalculations or out of date information which has not been updated consistently across all the databases. For instance, let us consider that the takeoff time for a flight has changed starting January 2020 but this information has not been updated across all the databases which contains information about this flight. This leads to conflicting information which can be confusing and also under certain circumstances, harmful. Data fusion attempts at combining such records that refer to the same real-world entity into a single representation by resolving possible conflicts from different data sources.
+
+###Conclusion for Data Integration in Carbon-Loading datasets
+During the data analysis, the came to the conclusion that, data provided by 8451 is homogeneous and every table is independent. The most significant conclusion that team withdrew was every table was linked with the other using Foreign Keys. Finally, again reading the carbo-loading paper, the team gets to know that, the dataset provided by the 8451 is the subset of their relational databases, and these datasets belong to the same dataset, hence we didn't require to do schema alignment, record linkage and data fusion.
+
+
 ### Final Results and Analyzing These Results 
 ```{r}
 #Editing of the Combined Dataset to Find the Answers for Question 2#

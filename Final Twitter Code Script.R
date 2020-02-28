@@ -1972,19 +1972,6 @@ data_frame_farm_style <- data.frame(word = names(sort_farm_style), freq = sort_f
 top_10_farm_style <- data_frame_farm_style %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_farm_style, 
-       aes(
-         label = word, size = top_10_farm_style$freq,
-         color = factor(sample.int(10, nrow(top_10_farm_style), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Farm Style",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #DaVinci Tweets#
 davinci <- c("pasta", "syrup")
 davinci_combine <- paste(davinci, collapse = " OR ")
@@ -2028,18 +2015,8 @@ data_frame_davinci <- data.frame(word = names(sort_davinci), freq = sort_davinci
 top_10_davinci <- data_frame_davinci %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_davinci, 
-       aes(
-         label = word, size = top_10_davinci$freq,
-         color = factor(sample.int(10, nrow(top_10_davinci), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - DaVinci",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+davinci_final <- crossing(top_10_davinci, brand = "DaVinci")
+davinci_final
 
 #Kellogg Tweets#
 kellogg <- c("kellogg", "syrup")
@@ -2072,7 +2049,7 @@ remove_stop_kellogg <- tm_map(remove_num_kellogg, removeWords, stopwords("englis
 
 remove_white_kellogg <- tm_map(remove_stop_kellogg, stripWhitespace)
 
-remove_words_kellogg <- tm_map(remove_white_kellogg, removeWords, c("kellogg", "kelloggs", "syrup", "syrups", "amp"))
+remove_words_kellogg <- tm_map(remove_white_kellogg, removeWords, c("kellogg", "kelloggs", "syrup", "syrups", "amp", "puts", "since"))
 
 matrix_kellogg <- TermDocumentMatrix((remove_words_kellogg))
 matrix_kellogg_2 <- as.matrix(matrix_kellogg)
@@ -2082,18 +2059,8 @@ data_frame_kellogg <- data.frame(word = names(sort_kellogg), freq = sort_kellogg
 top_10_kellogg <- data_frame_kellogg %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_kellogg, 
-       aes(
-         label = word, size = top_10_kellogg$freq,
-         color = factor(sample.int(10, nrow(top_10_kellogg), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Kellogg",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+kellogg_final <- crossing(top_10_kellogg, brand = "Kellogg")
+kellogg_final
 
 #Spring Tree Tweets#
 spring_tree <- c('"spring tree"', "syrup")
@@ -2136,19 +2103,6 @@ data_frame_spring_tree <- data.frame(word = names(sort_spring_tree), freq = sort
 top_10_spring_tree <- data_frame_spring_tree %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_spring_tree, 
-       aes(
-         label = word, size = top_10_spring_tree$freq,
-         color = factor(sample.int(10, nrow(top_10_spring_tree), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Spring Tree",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Colavita Tweets#
 colavita <- c("colavita", "pasta")
 colavita_search <- paste(colavita, collapse = " AND ")
@@ -2180,7 +2134,7 @@ remove_stop_colavita <- tm_map(remove_num_colavita, removeWords, stopwords("engl
 
 remove_white_colavita <- tm_map(remove_stop_colavita, stripWhitespace)
 
-remove_words_colavita <- tm_map(remove_white_colavita, removeWords, c("colavita", "vita", "cola", "colavitas", "pasta", "pastas", "amp"))
+remove_words_colavita <- tm_map(remove_white_colavita, removeWords, c("colavita", "vita", "cola", "colavitas", "pasta", "pastas", "amp", "apijuawk", "colavitaindia", "let"))
 
 matrix_colavita <- TermDocumentMatrix((remove_words_colavita))
 matrix_colavita_2 <- as.matrix(matrix_colavita)
@@ -2190,18 +2144,8 @@ data_frame_colavita <- data.frame(word = names(sort_colavita), freq = sort_colav
 top_10_colavita <- data_frame_colavita %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_colavita, 
-       aes(
-         label = word, size = top_10_colavita$freq,
-         color = factor(sample.int(10, nrow(top_10_colavita), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Colavita",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+colavita_final <- crossing(top_10_colavita, brand = "Colavita")
+colavita_final
 
 #Pasta Shoppe Tweets#
 pasta_shoppe <- c('"pasta shoppe"', "pasta")
@@ -2244,19 +2188,6 @@ data_frame_pasta_shoppe <- data.frame(word = names(sort_pasta_shoppe), freq = so
 top_10_pasta_shoppe <- data_frame_pasta_shoppe %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_pasta_shoppe, 
-       aes(
-         label = word, size = top_10_pasta_shoppe$freq,
-         color = factor(sample.int(10, nrow(top_10_pasta_shoppe), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Pasta Shoppe",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #San Marzano Tweets#
 san_marzano <- c('"san marzano"', "pasta")
 san_marzano_search <- paste(san_marzano, collapse = " AND ")
@@ -2298,18 +2229,8 @@ data_frame_san_marzano <- data.frame(word = names(sort_san_marzano), freq = sort
 top_10_san_marzano <- data_frame_san_marzano %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_san_marzano, 
-       aes(
-         label = word, size = top_10_san_marzano$freq,
-         color = factor(sample.int(10, nrow(top_10_san_marzano), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - San Marzano",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+san_marzano_final <- crossing(top_10_san_marzano, brand = "San Marzano")
+san_marzano_final
 
 #Classico Tweets#
 classico <- c("classico", "pasta")
@@ -2342,7 +2263,7 @@ remove_stop_classico <- tm_map(remove_num_classico, removeWords, stopwords("engl
 
 remove_white_classico <- tm_map(remove_stop_classico, stripWhitespace)
 
-remove_words_classico <- tm_map(remove_white_classico, removeWords, c("classico", "classicos", "classic", "pasta", "pastas", "amp"))
+remove_words_classico <- tm_map(remove_white_classico, removeWords, c("classico", "classicos", "classic", "pasta", "pastas", "amp", "sauce"))
 
 matrix_classico <- TermDocumentMatrix((remove_words_classico))
 matrix_classico_2 <- as.matrix(matrix_classico)
@@ -2352,18 +2273,8 @@ data_frame_classico <- data.frame(word = names(sort_classico), freq = sort_class
 top_10_classico <- data_frame_classico %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_classico, 
-       aes(
-         label = word, size = top_10_classico$freq,
-         color = factor(sample.int(10, nrow(top_10_classico), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Classico",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+classico_final <- crossing(top_10_classico, brand = "Classico")
+classico_final
 
 #B F Tweets#
 b_f <- c('"b f"', "pasta")
@@ -2406,19 +2317,6 @@ data_frame_b_f <- data.frame(word = names(sort_b_f), freq = sort_b_f)
 top_10_b_f <- data_frame_b_f %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_b_f, 
-       aes(
-         label = word, size = top_10_b_f$freq,
-         color = factor(sample.int(10, nrow(top_10_b_f), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - B F",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Krusteaz Tweets#
 krusteaz <- c("krusteaz", "pancake")
 krusteaz_search <- paste(krusteaz, collapse = " AND ")
@@ -2450,7 +2348,7 @@ remove_stop_krusteaz <- tm_map(remove_num_krusteaz, removeWords, stopwords("engl
 
 remove_white_krusteaz <- tm_map(remove_stop_krusteaz, stripWhitespace)
 
-remove_words_krusteaz <- tm_map(remove_white_krusteaz, removeWords, c("krusteaz", "krusteazs", "krust", "krusts", "pancake", "pancakes", "amp"))
+remove_words_krusteaz <- tm_map(remove_white_krusteaz, removeWords, c("krusteaz", "krusteazs", "krust", "krusts", "pancake", "pancakes", "amp", "mix", "just", "per"))
 
 matrix_krusteaz <- TermDocumentMatrix((remove_words_krusteaz))
 matrix_krusteaz_2 <- as.matrix(matrix_krusteaz)
@@ -2460,18 +2358,8 @@ data_frame_krusteaz <- data.frame(word = names(sort_krusteaz), freq = sort_krust
 top_10_krusteaz <- data_frame_krusteaz %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_krusteaz, 
-       aes(
-         label = word, size = top_10_krusteaz$freq,
-         color = factor(sample.int(10, nrow(top_10_krusteaz), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Krusteaz",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+krusteaz_final <- crossing(top_10_krusteaz, brand = "Krusteaz")
+krusteaz_final
 
 #Pioneer Tweets#
 pioneer <- c("pioneer", "pancake")
@@ -2504,7 +2392,7 @@ remove_stop_pioneer <- tm_map(remove_num_pioneer, removeWords, stopwords("englis
 
 remove_white_pioneer <- tm_map(remove_stop_pioneer, stripWhitespace)
 
-remove_words_pioneer <- tm_map(remove_white_pioneer, removeWords, c("pioneer", "pioneers", "pancake", "pancakes", "amp"))
+remove_words_pioneer <- tm_map(remove_white_pioneer, removeWords, c("pioneer", "pioneers", "pancake", "pancakes", "amp", "got"))
 
 matrix_pioneer <- TermDocumentMatrix((remove_words_pioneer))
 matrix_pioneer_2 <- as.matrix(matrix_pioneer)
@@ -2514,18 +2402,8 @@ data_frame_pioneer <- data.frame(word = names(sort_pioneer), freq = sort_pioneer
 top_10_pioneer <- data_frame_pioneer %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_pioneer, 
-       aes(
-         label = word, size = top_10_pioneer$freq,
-         color = factor(sample.int(10, nrow(top_10_pioneer), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Pioneer",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+pioneer_final <- crossing(top_10_pioneer, brand = "Pioneer")
+pioneer_final
 
 #Pennant Tweets#
 pennant <- c("pennant", "syrup")
@@ -2568,19 +2446,6 @@ data_frame_pennant <- data.frame(word = names(sort_pennant), freq = sort_pennant
 top_10_pennant <- data_frame_pennant %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_pennant, 
-       aes(
-         label = word, size = top_10_pennant$freq,
-         color = factor(sample.int(10, nrow(top_10_pennant), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Pennant",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Lund Swede Tweets#
 lund_swede <- c('"lund swede"', "pancake")
 lund_swede_search <- paste(lund_swede, collapse = " AND ")
@@ -2621,19 +2486,6 @@ data_frame_lund_swede <- data.frame(word = names(sort_lund_swede), freq = sort_l
 
 top_10_lund_swede <- data_frame_lund_swede %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_lund_swede, 
-       aes(
-         label = word, size = top_10_lund_swede$freq,
-         color = factor(sample.int(10, nrow(top_10_lund_swede), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Lund Swede",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Braswell Tweets#
 braswell <- c("braswell", "syrup")
@@ -2676,19 +2528,6 @@ data_frame_braswell <- data.frame(word = names(sort_braswell), freq = sort_brasw
 top_10_braswell <- data_frame_braswell %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_braswell, 
-       aes(
-         label = word, size = top_10_braswell$freq,
-         color = factor(sample.int(10, nrow(top_10_braswell), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Braswell",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Log Cabin Tweets#
 log_cabin <- c('"log cabin"', "syrup")
 log_cabin_search <- paste(log_cabin, collapse = " AND ")
@@ -2730,18 +2569,8 @@ data_frame_log_cabin <- data.frame(word = names(sort_log_cabin), freq = sort_log
 top_10_log_cabin <- data_frame_log_cabin %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_log_cabin, 
-       aes(
-         label = word, size = top_10_log_cabin$freq,
-         color = factor(sample.int(10, nrow(top_10_log_cabin), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Log Cabin",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+log_cabin_final <- crossing(top_10_log_cabin, brand = "Log Cabin")
+log_cabin_final
 
 #Buitoni Tweets#
 buitoni <- c("buitoni", "pasta")
@@ -2774,7 +2603,7 @@ remove_stop_buitoni <- tm_map(remove_num_buitoni, removeWords, stopwords("englis
 
 remove_white_buitoni <- tm_map(remove_stop_buitoni, stripWhitespace)
 
-remove_words_buitoni <- tm_map(remove_white_buitoni, removeWords, c("buitoni", "buitonis", "toni", "tonis", "pasta", "pastas", "amp"))
+remove_words_buitoni <- tm_map(remove_white_buitoni, removeWords, c("buitoni", "buitonis", "toni", "tonis", "pasta", "pastas", "amp", "also", "ever", "horusxero", "lemme"))
 
 matrix_buitoni <- TermDocumentMatrix((remove_words_buitoni))
 matrix_buitoni_2 <- as.matrix(matrix_buitoni)
@@ -2784,18 +2613,8 @@ data_frame_buitoni <- data.frame(word = names(sort_buitoni), freq = sort_buitoni
 top_10_buitoni <- data_frame_buitoni %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_buitoni, 
-       aes(
-         label = word, size = top_10_buitoni$freq,
-         color = factor(sample.int(10, nrow(top_10_buitoni), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Buitoni",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+buitoni_final <- crossing(top_10_buitoni, brand = "Buitoni")
+buitoni_final
 
 #Mrs Butterworth Tweets#
 mrs_butterworth <- c("pancake", "syrup")
@@ -2830,7 +2649,7 @@ remove_stop_mrs_butterworth <- tm_map(remove_num_mrs_butterworth, removeWords, s
 
 remove_white_mrs_butterworth <- tm_map(remove_stop_mrs_butterworth, stripWhitespace)
 
-remove_words_mrs_butterworth <- tm_map(remove_white_mrs_butterworth, removeWords, c("mrs butterworth", "mrs", "butterworth", "butterworths", "butter", "butters", "worth", "worths", "syrup", "syrups", "amp"))
+remove_words_mrs_butterworth <- tm_map(remove_white_mrs_butterworth, removeWords, c("mrs butterworth", "mrs", "butterworth", "butterworths", "butter", "butters", "worth", "worths", "syrup", "syrups", "amp", "don", "just", "know", "really", "til"))
 
 matrix_mrs_butterworth <- TermDocumentMatrix((remove_words_mrs_butterworth))
 matrix_mrs_butterworth_2 <- as.matrix(matrix_mrs_butterworth)
@@ -2840,18 +2659,8 @@ data_frame_mrs_butterworth <- data.frame(word = names(sort_mrs_butterworth), fre
 top_10_mrs_butterworth <- data_frame_mrs_butterworth %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_mrs_butterworth, 
-       aes(
-         label = word, size = top_10_mrs_butterworth$freq,
-         color = factor(sample.int(10, nrow(top_10_mrs_butterworth), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Mrs Butterworth",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+mrs_butterworth_final <- crossing(top_10_mrs_butterworth, brand = "Mrs Butterworth")
+mrs_butterworth_final
 
 #Raos Tweets#
 raos <- c("raos", "pasta")
@@ -2884,7 +2693,7 @@ remove_stop_raos <- tm_map(remove_num_raos, removeWords, stopwords("english"))
 
 remove_white_raos <- tm_map(remove_stop_raos, stripWhitespace)
 
-remove_words_raos <- tm_map(remove_white_raos, removeWords, c("raos", "rao", "pasta", "pastas", "amp"))
+remove_words_raos <- tm_map(remove_white_raos, removeWords, c("raos", "rao", "pasta", "pastas", "amp", "deidrescaramuc", "etc", "sauce"))
 
 matrix_raos <- TermDocumentMatrix((remove_words_raos))
 matrix_raos_2 <- as.matrix(matrix_raos)
@@ -2894,18 +2703,8 @@ data_frame_raos <- data.frame(word = names(sort_raos), freq = sort_raos)
 top_10_raos <- data_frame_raos %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_raos, 
-       aes(
-         label = word, size = top_10_raos$freq,
-         color = factor(sample.int(10, nrow(top_10_raos), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Raos",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+raos_final <- crossing(top_10_raos, brand = "Raos")
+raos_final
 
 #Castelna Tweets#
 castelna <- c("castelna", "pasta")
@@ -2948,19 +2747,6 @@ data_frame_castelna <- data.frame(word = names(sort_castelna), freq = sort_caste
 top_10_castelna <- data_frame_castelna %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_castelna, 
-       aes(
-         label = word, size = top_10_castelna$freq,
-         color = factor(sample.int(10, nrow(top_10_castelna), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Castelna",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Karo Tweets#
 karo <- c("karo", "syrup")
 karo_search <- paste(karo, collapse = " AND ")
@@ -2992,7 +2778,7 @@ remove_stop_karo <- tm_map(remove_num_karo, removeWords, stopwords("english"))
 
 remove_white_karo <- tm_map(remove_stop_karo, stripWhitespace)
 
-remove_words_karo <- tm_map(remove_white_karo, removeWords, c("karo", "karos", "syrup", "syrups", "amp"))
+remove_words_karo <- tm_map(remove_white_karo, removeWords, c("karo", "karos", "syrup", "syrups", "amp", "just", "use"))
 
 matrix_karo <- TermDocumentMatrix((remove_words_karo))
 matrix_karo_2 <- as.matrix(matrix_karo)
@@ -3002,18 +2788,8 @@ data_frame_karo <- data.frame(word = names(sort_karo), freq = sort_karo)
 top_10_karo <- data_frame_karo %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_karo, 
-       aes(
-         label = word, size = top_10_karo$freq,
-         color = factor(sample.int(10, nrow(top_10_karo), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Karo",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+karo_final <- crossing(top_10_karo, brand = "Karo")
+karo_final
 
 #Cara Nona Tweets#
 cara_nona <- c('"cara nona"', "pasta")
@@ -3056,19 +2832,6 @@ data_frame_cara_nona <- data.frame(word = names(sort_cara_nona), freq = sort_car
 top_10_cara_nona <- data_frame_cara_nona %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_cara_nona, 
-       aes(
-         label = word, size = top_10_cara_nona$freq,
-         color = factor(sample.int(10, nrow(top_10_cara_nona), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Cara Nona",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Walnut Acres Tweets#
 walnut_acres <- c('"walnut acres"', "pasta")
 walnut_acres_search <- paste(walnut_acres, collapse = " AND ")
@@ -3109,19 +2872,6 @@ data_frame_walnut_acres <- data.frame(word = names(sort_walnut_acres), freq = so
 
 top_10_walnut_acres <- data_frame_walnut_acres %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_walnut_acres, 
-       aes(
-         label = word, size = top_10_walnut_acres$freq,
-         color = factor(sample.int(10, nrow(top_10_walnut_acres), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Walnut Acres",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Lucini Tweets#
 lucini <- c("lucini", "pasta")
@@ -3164,19 +2914,6 @@ data_frame_lucini <- data.frame(word = names(sort_lucini), freq = sort_lucini)
 top_10_lucini <- data_frame_lucini %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_lucini, 
-       aes(
-         label = word, size = top_10_lucini$freq,
-         color = factor(sample.int(10, nrow(top_10_lucini), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Lucini",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Prego Tweets#
 prego <- c("prego", "pasta")
 prego_search <- paste(prego, collapse = " AND ")
@@ -3208,7 +2945,7 @@ remove_stop_prego <- tm_map(remove_num_prego, removeWords, stopwords("english"))
 
 remove_white_prego <- tm_map(remove_stop_prego, stripWhitespace)
 
-remove_words_prego <- tm_map(remove_white_prego, removeWords, c("prego", "pregos", "pasta", "pastas", "amp"))
+remove_words_prego <- tm_map(remove_white_prego, removeWords, c("prego", "pregos", "pasta", "pastas", "amp", "sauce", "even", "just", "preggo", "sauce"))
 
 matrix_prego <- TermDocumentMatrix((remove_words_prego))
 matrix_prego_2 <- as.matrix(matrix_prego)
@@ -3218,18 +2955,8 @@ data_frame_prego <- data.frame(word = names(sort_prego), freq = sort_prego)
 top_10_prego <- data_frame_prego %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_prego, 
-       aes(
-         label = word, size = top_10_prego$freq,
-         color = factor(sample.int(10, nrow(top_10_prego), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Prego",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+prego_final <- crossing(top_10_prego, brand = "Prego")
+prego_final
 
 #Joey's Tweets#
 joeys <- c("joey's", "pasta")
@@ -3262,7 +2989,7 @@ remove_stop_joeys <- tm_map(remove_num_joeys, removeWords, stopwords("english"))
 
 remove_white_joeys <- tm_map(remove_stop_joeys, stripWhitespace)
 
-remove_words_joeys <- tm_map(remove_white_joeys, removeWords, c("joey's", "joeys", "joey", "joe", "joes", "pasta", "pastas", "amp"))
+remove_words_joeys <- tm_map(remove_white_joeys, removeWords, c("joey's", "joeys", "joey", "joe", "joes", "pasta", "pastas", "amp", "shelbylanza"))
 
 matrix_joeys <- TermDocumentMatrix((remove_words_joeys))
 matrix_joeys_2 <- as.matrix(matrix_joeys)
@@ -3272,18 +2999,8 @@ data_frame_joeys <- data.frame(word = names(sort_joeys), freq = sort_joeys)
 top_10_joeys <- data_frame_joeys %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_joeys, 
-       aes(
-         label = word, size = top_10_joeys$freq,
-         color = factor(sample.int(10, nrow(top_10_joeys), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Joey's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+joeys_final <- crossing(top_10_joeys, brand = "Joey's")
+joeys_final
 
 #Smuckers Tweets#
 smuckers <- c("smuckers", "syrup")
@@ -3316,7 +3033,7 @@ remove_stop_smuckers <- tm_map(remove_num_smuckers, removeWords, stopwords("engl
 
 remove_white_smuckers <- tm_map(remove_stop_smuckers, stripWhitespace)
 
-remove_words_smuckers <- tm_map(remove_white_smuckers, removeWords, c("smuckers", "smucker", "syrup", "syrups", "amp"))
+remove_words_smuckers <- tm_map(remove_white_smuckers, removeWords, c("smuckers", "smucker", "syrup", "syrups", "amp", "andersonsmaple"))
 
 matrix_smuckers <- TermDocumentMatrix((remove_words_smuckers))
 matrix_smuckers_2 <- as.matrix(matrix_smuckers)
@@ -3326,18 +3043,8 @@ data_frame_smuckers <- data.frame(word = names(sort_smuckers), freq = sort_smuck
 top_10_smuckers <- data_frame_smuckers %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_smuckers, 
-       aes(
-         label = word, size = top_10_smuckers$freq,
-         color = factor(sample.int(10, nrow(top_10_smuckers), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Smuckers",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+smuckers_final <- crossing(top_10_smuckers, brand = "Smuckers")
+smuckers_final
 
 #Dave's Tweets#
 daves <- c("dave's", "pasta")
@@ -3370,7 +3077,7 @@ remove_stop_daves <- tm_map(remove_num_daves, removeWords, stopwords("english"))
 
 remove_white_daves <- tm_map(remove_stop_daves, stripWhitespace)
 
-remove_words_daves <- tm_map(remove_white_daves, removeWords, c("dave's", "daves", "dave", "pasta", "pastas", "amp"))
+remove_words_daves <- tm_map(remove_white_daves, removeWords, c("dave's", "daves", "dave", "pasta", "pastas", "amp", "just", "mrscglambert", "universalhub", "know"))
 
 matrix_daves <- TermDocumentMatrix((remove_words_daves))
 matrix_daves_2 <- as.matrix(matrix_daves)
@@ -3380,18 +3087,8 @@ data_frame_daves <- data.frame(word = names(sort_daves), freq = sort_daves)
 top_10_daves <- data_frame_daves %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_daves, 
-       aes(
-         label = word, size = top_10_daves$freq,
-         color = factor(sample.int(10, nrow(top_10_daves), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Dave's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+daves_final <- crossing(top_10_daves, brand = "Dave's")
+daves_final
 
 #Cary's Tweets#
 carys <- c("cary's", "syrup")
@@ -3434,19 +3131,6 @@ data_frame_carys <- data.frame(word = names(sort_carys), freq = sort_carys)
 top_10_carys <- data_frame_carys %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_carys, 
-       aes(
-         label = word, size = top_10_carys$freq,
-         color = factor(sample.int(10, nrow(top_10_carys), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Cary's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Brother's Tweets#
 brothers <- c("brother's", "pasta")
 brothers_search <- paste(brothers, collapse = " AND ")
@@ -3478,7 +3162,7 @@ remove_stop_brothers <- tm_map(remove_num_brothers, removeWords, stopwords("engl
 
 remove_white_brothers <- tm_map(remove_stop_brothers, stripWhitespace)
 
-remove_words_brothers <- tm_map(remove_white_brothers, removeWords, c("brother's", "brothers", "brother", "pasta", "pastas", "amp"))
+remove_words_brothers <- tm_map(remove_white_brothers, removeWords, c("brother's", "brothers", "brother", "pasta", "pastas", "amp", "doesn", "told"))
 
 matrix_brothers <- TermDocumentMatrix((remove_words_brothers))
 matrix_brothers_2 <- as.matrix(matrix_brothers)
@@ -3488,18 +3172,8 @@ data_frame_brothers <- data.frame(word = names(sort_brothers), freq = sort_broth
 top_10_brothers <- data_frame_brothers %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_brothers, 
-       aes(
-         label = word, size = top_10_brothers$freq,
-         color = factor(sample.int(10, nrow(top_10_brothers), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Brother's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+brothers_final <- crossing(top_10_brothers, brand = "Brother's")
+brothers_final
 
 #Vermont Gold Tweets#
 vermont_gold <- c('"vermont gold"', "syrup")
@@ -3542,19 +3216,6 @@ data_frame_vermont_gold <- data.frame(word = names(sort_vermont_gold), freq = so
 top_10_vermont_gold <- data_frame_vermont_gold %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_vermont_gold, 
-       aes(
-         label = word, size = top_10_vermont_gold$freq,
-         color = factor(sample.int(10, nrow(top_10_vermont_gold), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Vermont Gold",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Chef Pizza Tweets#
 chef_pizza <- c('"chef pizza"', "pasta")
 chef_pizza_search <- paste(chef_pizza, collapse = " AND ")
@@ -3595,19 +3256,6 @@ data_frame_chef_pizza <- data.frame(word = names(sort_chef_pizza), freq = sort_c
 
 top_10_chef_pizza <- data_frame_chef_pizza %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_chef_pizza, 
-       aes(
-         label = word, size = top_10_chef_pizza$freq,
-         color = factor(sample.int(10, nrow(top_10_chef_pizza), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Chef Pizza",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Annie Chns Tweets#
 annie_chns <- c('"annie chns"', "pasta")
@@ -3650,19 +3298,6 @@ data_frame_annie_chns <- data.frame(word = names(sort_annie_chns), freq = sort_a
 top_10_annie_chns <- data_frame_annie_chns %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_annie_chns, 
-       aes(
-         label = word, size = top_10_annie_chns$freq,
-         color = factor(sample.int(10, nrow(top_10_annie_chns), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Annie Chns",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Dreamfield Tweets#
 dreamfield <- c("dreamfield", "pasta")
 dreamfield_search <- paste(dreamfield, collapse = " AND ")
@@ -3703,19 +3338,6 @@ data_frame_dreamfield <- data.frame(word = names(sort_dreamfield), freq = sort_d
 
 top_10_dreamfield <- data_frame_dreamfield %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_dreamfield, 
-       aes(
-         label = word, size = top_10_dreamfield$freq,
-         color = factor(sample.int(10, nrow(top_10_dreamfield), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Dreamfield",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Orzo Tweets#
 orzo <- c("orzo", "pasta")
@@ -3758,18 +3380,8 @@ data_frame_orzo <- data.frame(word = names(sort_orzo), freq = sort_orzo)
 top_10_orzo <- data_frame_orzo %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_orzo, 
-       aes(
-         label = word, size = top_10_orzo$freq,
-         color = factor(sample.int(10, nrow(top_10_orzo), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Orzo",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+orzo_final <- crossing(top_10_orzo, brand = "Orzo")
+orzo_final
 
 #Patsy's Tweets#
 patsys <- c("patsy's", "pasta")
@@ -3812,19 +3424,6 @@ data_frame_patsys <- data.frame(word = names(sort_patsys), freq = sort_patsys)
 top_10_patsys <- data_frame_patsys %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_patsys, 
-       aes(
-         label = word, size = top_10_patsys$freq,
-         color = factor(sample.int(10, nrow(top_10_patsys), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Patsy's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Pastariso Tweets#
 pastariso <- c("pastariso", "pasta")
 pastariso_search <- paste(pastariso, collapse = " AND ")
@@ -3865,19 +3464,6 @@ data_frame_pastariso <- data.frame(word = names(sort_pastariso), freq = sort_pas
 
 top_10_pastariso <- data_frame_pastariso %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_pastariso, 
-       aes(
-         label = word, size = top_10_pastariso$freq,
-         color = factor(sample.int(10, nrow(top_10_pastariso), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Pastariso",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Howard's Tweets#
 howards <- c("howard's", "syrup")
@@ -3920,18 +3506,8 @@ data_frame_howards <- data.frame(word = names(sort_howards), freq = sort_howards
 top_10_howards <- data_frame_howards %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_howards, 
-       aes(
-         label = word, size = top_10_howards$freq,
-         color = factor(sample.int(10, nrow(top_10_howards), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Howard's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+howards_final <- crossing(top_10_howards, brand = "Howard's")
+howards_final
 
 #Arlow Tweets#
 arlow <- c("arlow", "pasta")
@@ -3974,19 +3550,6 @@ data_frame_arlow <- data.frame(word = names(sort_arlow), freq = sort_arlow)
 top_10_arlow <- data_frame_arlow %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_arlow, 
-       aes(
-         label = word, size = top_10_arlow$freq,
-         color = factor(sample.int(10, nrow(top_10_arlow), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Arlow",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Notta Tweets#
 notta <- c("notta", "pasta")
 notta_search <- paste(notta, collapse = " AND ")
@@ -4028,22 +3591,9 @@ data_frame_notta <- data.frame(word = names(sort_notta), freq = sort_notta)
 top_10_notta <- data_frame_notta %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_notta, 
-       aes(
-         label = word, size = top_10_notta$freq,
-         color = factor(sample.int(10, nrow(top_10_notta), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Notta",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Antoine's Tweets#
 antoines <- c("antoine's", "pasta")
-antoines_search <- paste(antoines, collape = " AND ")
+antoines_search <- paste(antoines, collapse = " AND ")
 antoines_tweets <- search_tweets(q = antoines_search, n = 1000, lang = "en", include_rts = FALSE)
 tibble(antoines_tweets)
 
@@ -4081,19 +3631,6 @@ data_frame_antoines <- data.frame(word = names(sort_antoines), freq = sort_antoi
 
 top_10_antoines <- data_frame_antoines %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_antoines, 
-       aes(
-         label = word, size = top_10_antoines$freq,
-         color = factor(sample.int(10, nrow(top_10_antoines), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Antoine's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Bellino Tweets#
 bellino <- c("bellino", "pasta")
@@ -4136,19 +3673,6 @@ data_frame_bellino <- data.frame(word = names(sort_bellino), freq = sort_bellino
 top_10_bellino <- data_frame_bellino %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_bellino, 
-       aes(
-         label = word, size = top_10_bellino$freq,
-         color = factor(sample.int(10, nrow(top_10_bellino), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Bellino",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Cento Tweets#
 cento <- c("cento", "pasta")
 cento_search <- paste(cento, collapse = " AND ")
@@ -4190,19 +3714,6 @@ data_frame_cento <- data.frame(word = names(sort_cento), freq = sort_cento)
 top_10_cento <- data_frame_cento %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_cento, 
-       aes(
-         label = word, size = top_10_cento$freq,
-         color = factor(sample.int(10, nrow(top_10_cento), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Cento",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Knott's Tweets#
 knotts <- c("knott's", "syrup")
 knotts_search <- paste(knotts, collapse = " AND ")
@@ -4234,7 +3745,7 @@ remove_stop_knotts <- tm_map(remove_num_knotts, removeWords, stopwords("english"
 
 remove_white_knotts <- tm_map(remove_stop_knotts, stripWhitespace)
 
-remove_words_knotts <- tm_map(remove_white_knotts, removeWords, c("knott's", "knotts", "knott", "not", "nots", "syrup", "syrups", "amp"))
+remove_words_knotts <- tm_map(remove_white_knotts, removeWords, c("knott's", "knotts", "knott", "not", "nots", "syrup", "syrups", "amp", "debonairedamon", "grrs"))
 
 matrix_knotts <- TermDocumentMatrix((remove_words_knotts))
 matrix_knotts_2 <- as.matrix(matrix_knotts)
@@ -4244,18 +3755,8 @@ data_frame_knotts <- data.frame(word = names(sort_knotts), freq = sort_knotts)
 top_10_knotts <- data_frame_knotts %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_knotts, 
-       aes(
-         label = word, size = top_10_knotts$freq,
-         color = factor(sample.int(10, nrow(top_10_knotts), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Knott's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+knotts_final <- crossing(top_10_knotts, brand = "Knott's")
+knotts_final
 
 #Alessi Tweets#
 alessi <- c("alessi", "pasta")
@@ -4298,19 +3799,6 @@ data_frame_alessi <- data.frame(word = names(sort_alessi), freq = sort_alessi)
 top_10_alessi <- data_frame_alessi %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_alessi, 
-       aes(
-         label = word, size = top_10_alessi$freq,
-         color = factor(sample.int(10, nrow(top_10_alessi), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Alessi",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Ferrara Tweets#
 ferrara <- c("ferrara", "pasta")
 ferrara_search <- paste(ferrara, collapse = " AND ")
@@ -4352,19 +3840,6 @@ data_frame_ferrara <- data.frame(word = names(sort_ferrara), freq = sort_ferrara
 top_10_ferrara <- data_frame_ferrara %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_ferrara, 
-       aes(
-         label = word, size = top_10_ferrara$freq,
-         color = factor(sample.int(10, nrow(top_10_ferrara), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Ferrara",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Hodgson Mills Tweets#
 hodgson_mills <- c("pancake", "pasta")
 hodgson_mills_combine <- paste(hodgson_mills, collapse = " OR ")
@@ -4398,7 +3873,7 @@ remove_stop_hodgson_mills <- tm_map(remove_num_hodgson_mills, removeWords, stopw
 
 remove_white_hodgson_mills <- tm_map(remove_stop_hodgson_mills, stripWhitespace)
 
-remove_words_hodgson_mills <- tm_map(remove_white_hodgson_mills, removeWords, c("hodgson mills", "hodgson", "mills", "mill", "pancake", "pancakes", "pasta", "pastas", "amp"))
+remove_words_hodgson_mills <- tm_map(remove_white_hodgson_mills, removeWords, c("hodgson mills", "hodgson", "mills", "mill", "pancake", "pancakes", "pasta", "pastas", "amp", "also", "chejfoojgg", "dslchmekk", "mix", "nhquepicr"))
 
 matrix_hodgson_mills <- TermDocumentMatrix((remove_words_hodgson_mills))
 matrix_hodgson_mills_2 <- as.matrix(matrix_hodgson_mills)
@@ -4408,18 +3883,8 @@ data_frame_hodgson_mills <- data.frame(word = names(sort_hodgson_mills), freq = 
 top_10_hodgson_mills <- data_frame_hodgson_mills %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_hodgson_mills, 
-       aes(
-         label = word, size = top_10_hodgson_mills$freq,
-         color = factor(sample.int(10, nrow(top_10_hodgson_mills), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Hodgson Mills",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+hodgson_mills_final <- crossing(top_10_hodgson_mills, brand = "Hodgson Mills")
+hodgson_mills_final
 
 #R&F Tweets#
 rf <- c("r&f", "pasta")
@@ -4452,7 +3917,7 @@ remove_stop_rf <- tm_map(remove_num_rf, removeWords, stopwords("english"))
 
 remove_white_rf <- tm_map(remove_stop_rf, stripWhitespace)
 
-remove_words_rf <- tm_map(remove_white_rf, removeWords, c("r&f", "pasta", "pastas", "amp"))
+remove_words_rf <- tm_map(remove_white_rf, removeWords, c("r&f", "pasta", "pastas", "amp", "aftertheboop", "andrewfairbairn", "angrymoocow", "annotatedmst", "battlefleetb", "bhodii", "bobbilljim", "catfacejoe", "detroitqspider", "djcozmik", "dtjqfixwh", "etc", "fartcrab", "formatamerica", "garbagedotnet", "glennsmithpr", "henderburn", "ilovepets", "iluvcomputer", "jerrybindle", "jesuswep", "jfarmdogg", "jimprov", "joedonbaker", "joenihl", "jonny", "kennethlogins", "modusoperandi"))
 
 matrix_rf <- TermDocumentMatrix((remove_words_rf))
 matrix_rf_2 <- as.matrix(matrix_rf)
@@ -4462,18 +3927,8 @@ data_frame_rf <- data.frame(word = names(sort_rf), freq = sort_rf)
 top_10_rf <- data_frame_rf %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_rf, 
-       aes(
-         label = word, size = top_10_rf$freq,
-         color = factor(sample.int(10, nrow(top_10_rf), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - R&F",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+rf_final <- crossing(top_10_rf, brand = "R&F")
+rf_final
 
 #Wacky Mac Tweets#
 wacky_mac <- c('"wacky mac"', "pasta")
@@ -4516,19 +3971,6 @@ data_frame_wacky_mac <- data.frame(word = names(sort_wacky_mac), freq = sort_wac
 top_10_wacky_mac <- data_frame_wacky_mac %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_wacky_mac, 
-       aes(
-         label = word, size = top_10_wacky_mac$freq,
-         color = factor(sample.int(10, nrow(top_10_wacky_mac), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Wacky Mac",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #No Yolks Tweets#
 no_yolks <- c('"no yolks"', "pasta")
 no_yolks_search <- paste(no_yolks, collapse = " AND ")
@@ -4560,7 +4002,7 @@ remove_stop_no_yolks <- tm_map(remove_num_no_yolks, removeWords, stopwords("engl
 
 remove_white_no_yolks <- tm_map(remove_stop_no_yolks, stripWhitespace)
 
-remove_words_no_yolks <- tm_map(remove_white_no_yolks, removeWords, c("no yolks", "no", "yolks", "yolk", "pasta", "pastas", "amp"))
+remove_words_no_yolks <- tm_map(remove_white_no_yolks, removeWords, c("no yolks", "no", "yolks", "yolk", "pasta", "pastas", "amp", "dcryzmpcf", "essentia"))
 
 matrix_no_yolks <- TermDocumentMatrix((remove_words_no_yolks))
 matrix_no_yolks_2 <- as.matrix(matrix_no_yolks)
@@ -4570,18 +4012,8 @@ data_frame_no_yolks <- data.frame(word = names(sort_no_yolks), freq = sort_no_yo
 top_10_no_yolks <- data_frame_no_yolks %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_no_yolks, 
-       aes(
-         label = word, size = top_10_no_yolks$freq,
-         color = factor(sample.int(10, nrow(top_10_no_yolks), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - No Yolks",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+no_yolks_final <- crossing(top_10_no_yolks, brand = "No Yolks")
+no_yolks_final
 
 #Mrs Weiss Tweets#
 mrs_weiss <- c('"mrs weiss"', "pasta")
@@ -4624,19 +4056,6 @@ data_frame_mrs_weiss <- data.frame(word = names(sort_mrs_weiss), freq = sort_mrs
 top_10_mrs_weiss <- data_frame_mrs_weiss %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_mrs_weiss, 
-       aes(
-         label = word, size = top_10_mrs_weiss$freq,
-         color = factor(sample.int(10, nrow(top_10_mrs_weiss), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Mrs Weiss",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Amore Tweets#
 amore <- c("amore", "pasta")
 amore_search <- paste(amore, collapse = " AND ")
@@ -4668,7 +4087,7 @@ remove_stop_amore <- tm_map(remove_num_amore, removeWords, stopwords("english"))
 
 remove_white_amore <- tm_map(remove_stop_amore, stripWhitespace)
 
-remove_words_amore <- tm_map(remove_white_amore, removeWords, c("amore", "amores", "more", "mores", "pasta", "pastas", "amp"))
+remove_words_amore <- tm_map(remove_white_amore, removeWords, c("amore", "amores", "more", "mores", "pasta", "pastas", "amp", "also", "fazool", "just"))
 
 matrix_amore <- TermDocumentMatrix((remove_words_amore))
 matrix_amore_2 <- as.matrix(matrix_amore)
@@ -4678,18 +4097,8 @@ data_frame_amore <- data.frame(word = names(sort_amore), freq = sort_amore)
 top_10_amore <- data_frame_amore %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_amore, 
-       aes(
-         label = word, size = top_10_amore$freq,
-         color = factor(sample.int(10, nrow(top_10_amore), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Amore",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+amore_final <- crossing(top_10_amore, brand = "Amore")
+amore_final
 
 #HSE Tweets#
 hse <- c("hse", "syrup")
@@ -4712,6 +4121,7 @@ url_clean_hse<- tm_map(hse_emoji_clean, content_transformer(remove_urls))
 lower_hse <- tm_map(url_clean_hse, content_transformer(tolower))
 
 remove_items <- function(x) gsub("[^[:alpha:][:space:]]*", "", x)
+
 remove_hse <- tm_map(lower_hse, content_transformer(remove_items))
 
 remove_punct_hse <- tm_map(remove_hse, removePunctuation)
@@ -4732,18 +4142,8 @@ data_frame_hse <- data.frame(word = names(sort_hse), freq = sort_hse)
 top_10_hse <- data_frame_hse %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_hse, 
-       aes(
-         label = word, size = top_10_hse$freq,
-         color = factor(sample.int(10, nrow(top_10_hse), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - HSE",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+hse_final <- crossing(top_10_hse, brand = "HSE")
+hse_final
 
 #Enrico Tweets#
 enrico <- c("enrico", "pasta")
@@ -4786,19 +4186,6 @@ data_frame_enrico <- data.frame(word = names(sort_enrico), freq = sort_enrico)
 top_10_enrico <- data_frame_enrico %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_enrico, 
-       aes(
-         label = word, size = top_10_enrico$freq,
-         color = factor(sample.int(10, nrow(top_10_enrico), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Enrico",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Kedem Tweets#
 kedem <- c("kedem", "pasta")
 kedem_search <- paste(kedem, collapse = " AND ")
@@ -4840,19 +4227,6 @@ data_frame_kedem <- data.frame(word = names(sort_kedem), freq = sort_kedem)
 top_10_kedem <- data_frame_kedem %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_kedem, 
-       aes(
-         label = word, size = top_10_kedem$freq,
-         color = factor(sample.int(10, nrow(top_10_kedem), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Kedem",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Maple Grove Tweets#
 maple_grove <- c("pancake", "syrup")
 maple_grove_combine <- paste(maple_grove, collapse = " OR ")
@@ -4886,7 +4260,7 @@ remove_stop_maple_grove <- tm_map(remove_num_maple_grove, removeWords, stopwords
 
 remove_white_maple_grove <- tm_map(remove_stop_maple_grove, stripWhitespace)
 
-remove_words_maple_grove <- tm_map(remove_white_maple_grove, removeWords, c("maple grove", "maple", "maples", "grove", "groves", "pancake", "pancakes", "syrup", "syrups", "amp"))
+remove_words_maple_grove <- tm_map(remove_white_maple_grove, removeWords, c("maple grove", "maple", "maples", "grove", "groves", "pancake", "pancakes", "syrup", "syrups", "amp", "also", "mix", "nhquepicr"))
 
 matrix_maple_grove <- TermDocumentMatrix((remove_words_maple_grove))
 matrix_maple_grove_2 <- as.matrix(matrix_maple_grove)
@@ -4896,18 +4270,8 @@ data_frame_maple_grove <- data.frame(word = names(sort_maple_grove), freq = sort
 top_10_maple_grove <- data_frame_maple_grove %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_maple_grove, 
-       aes(
-         label = word, size = top_10_maple_grove$freq,
-         color = factor(sample.int(10, nrow(top_10_maple_grove), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Maple Grove",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+maple_grove_final <- crossing(top_10_maple_grove, brand = "Maple Grove")
+maple_grove_final
 
 #Cozy Cottage Tweets#
 cozy_cottage <- c('"cozy cottage"', "syrup")
@@ -4950,19 +4314,6 @@ data_frame_cozy_cottage <- data.frame(word = names(sort_cozy_cottage), freq = so
 top_10_cozy_cottage <- data_frame_cozy_cottage %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_cozy_cottage, 
-       aes(
-         label = word, size = top_10_cozy_cottage$freq,
-         color = factor(sample.int(10, nrow(top_10_cozy_cottage), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Cozy Cottage",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Emeril's Tweets#
 emerils <- c("emeril's", "pasta")
 emerils_search <- paste(emerils, collapse = " AND ")
@@ -5003,19 +4354,6 @@ data_frame_emerils <- data.frame(word = names(sort_emerils), freq = sort_emerils
 
 top_10_emerils <- data_frame_emerils %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_emerils, 
-       aes(
-         label = word, size = top_10_emerils$freq,
-         color = factor(sample.int(10, nrow(top_10_emerils), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Emeril's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Mayacmas Tweets#
 mayacmas <- c("mayacmas", "pasta")
@@ -5058,19 +4396,6 @@ data_frame_mayacmas <- data.frame(word = names(sort_mayacmas), freq = sort_mayac
 top_10_mayacmas <- data_frame_mayacmas %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_mayacmas, 
-       aes(
-         label = word, size = top_10_mayacmas$freq,
-         color = factor(sample.int(10, nrow(top_10_mayacmas), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Mayacmas",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Lyles Tweets#
 lyles <- c("lyles", "syrup")
 lyles_search <- paste(lyles, collapse = " AND ")
@@ -5112,18 +4437,8 @@ data_frame_lyles <- data.frame(word = names(sort_lyles), freq = sort_lyles)
 top_10_lyles <- data_frame_lyles %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_lyles, 
-       aes(
-         label = word, size = top_10_lyles$freq,
-         color = factor(sample.int(10, nrow(top_10_lyles), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Lyles",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+lyles_final <- crossing(top_10_lyles, brand = "Lyles")
+lyles_final
 
 #Eddie Tweets#
 eddie <- c("eddie", "pasta")
@@ -5156,7 +4471,7 @@ remove_stop_eddie <- tm_map(remove_num_eddie, removeWords, stopwords("english"))
 
 remove_white_eddie <- tm_map(remove_stop_eddie, stripWhitespace)
 
-remove_words_eddie <- tm_map(remove_white_eddie, removeWords, c("eddie", "eddies", "ed", "eds", "pasta", "pastas", "amp"))
+remove_words_eddie <- tm_map(remove_white_eddie, removeWords, c("eddie", "eddies", "ed", "eds", "pasta", "pastas", "amp", "just", "surgital"))
 
 matrix_eddie <- TermDocumentMatrix((remove_words_eddie))
 matrix_eddie_2 <- as.matrix(matrix_eddie)
@@ -5166,18 +4481,8 @@ data_frame_eddie <- data.frame(word = names(sort_eddie), freq = sort_eddie)
 top_10_eddie <- data_frame_eddie %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_eddie, 
-       aes(
-         label = word, size = top_10_eddie$freq,
-         color = factor(sample.int(10, nrow(top_10_eddie), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Eddie",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+eddie_final <- crossing(top_10_eddie, brand = "Eddie")
+eddie_final
 
 #Northwoods Tweets#
 northwoods <- c("northwoods", "syrup")
@@ -5210,7 +4515,7 @@ remove_stop_northwoods <- tm_map(remove_num_northwoods, removeWords, stopwords("
 
 remove_white_northwoods <- tm_map(remove_stop_northwoods, stripWhitespace)
 
-remove_words_northwoods <- tm_map(remove_white_northwoods, removeWords, c("northwoods", "northwood", "north", "norths", "wood", "woods", "syrup", "syrups", "amp"))
+remove_words_northwoods <- tm_map(remove_white_northwoods, removeWords, c("northwoods", "northwood", "north", "norths", "wood", "woods", "syrup", "syrups", "amp", "aren"))
 
 matrix_northwoods <- TermDocumentMatrix((remove_words_northwoods))
 matrix_northwoods_2 <- as.matrix(matrix_northwoods)
@@ -5220,18 +4525,8 @@ data_frame_northwoods <- data.frame(word = names(sort_northwoods), freq = sort_n
 top_10_northwoods <- data_frame_northwoods %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_northwoods, 
-       aes(
-         label = word, size = top_10_northwoods$freq,
-         color = factor(sample.int(10, nrow(top_10_northwoods), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Northwoods",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+northwoods_final <- crossing(top_10_northwoods, brand = "Northwoods")
+northwoods_final
 
 #Dell Alpe Tweets#
 dell_alpe <- c('"dell alpe"', "pasta")
@@ -5274,19 +4569,6 @@ data_frame_dell_alpe <- data.frame(word = names(sort_dell_alpe), freq = sort_del
 top_10_dell_alpe <- data_frame_dell_alpe %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_dell_alpe, 
-       aes(
-         label = word, size = top_10_dell_alpe$freq,
-         color = factor(sample.int(10, nrow(top_10_dell_alpe), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Dell Alpe",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Classique Tweets#
 classique <- c("classique", "pancake")
 classique_search <- paste(classique, collapse = " AND ")
@@ -5327,19 +4609,6 @@ data_frame_classique <- data.frame(word = names(sort_classique), freq = sort_cla
 
 top_10_classique <- data_frame_classique %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_classique, 
-       aes(
-         label = word, size = top_10_classique$freq,
-         color = factor(sample.int(10, nrow(top_10_classique), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Classique",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Osem Bissli Tweets#
 osem_bissli <- c('"osem bissli"', "pancake")
@@ -5382,19 +4651,6 @@ data_frame_osem_bissli <- data.frame(word = names(sort_osem_bissli), freq = sort
 top_10_osem_bissli <- data_frame_osem_bissli %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_osem_bissli, 
-       aes(
-         label = word, size = top_10_osem_bissli$freq,
-         color = factor(sample.int(10, nrow(top_10_osem_bissli), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Osem Bissli",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Darielle Tweets#
 darielle <- c("darielle", "pasta")
 darielle_search <- paste(darielle, collapse = " AND ")
@@ -5435,19 +4691,6 @@ data_frame_darielle <- data.frame(word = names(sort_darielle), freq = sort_darie
 
 top_10_darielle <- data_frame_darielle %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_darielle, 
-       aes(
-         label = word, size = top_10_darielle$freq,
-         color = factor(sample.int(10, nrow(top_10_darielle), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Darielle",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Sand Mountain Tweets#
 sand_mountain <- c('"sand mountain"', "syrup")
@@ -5490,19 +4733,6 @@ data_frame_sand_mountain <- data.frame(word = names(sort_sand_mountain), freq = 
 top_10_sand_mountain <- data_frame_sand_mountain %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_sand_mountain, 
-       aes(
-         label = word, size = top_10_sand_mountain$freq,
-         color = factor(sample.int(10, nrow(top_10_sand_mountain), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Sand Mountain",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Defino Tweets#
 defino <- c("defino", "pasta")
 defino_search <- paste(defino, collapse = " AND ")
@@ -5543,19 +4773,6 @@ data_frame_defino <- data.frame(word = names(sort_defino), freq = sort_defino)
 
 top_10_defino <- data_frame_defino %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_defino, 
-       aes(
-         label = word, size = top_10_defino$freq,
-         color = factor(sample.int(10, nrow(top_10_defino), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Defino",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Roselli Tweets#
 roselli <- c("roselli", "pasta")
@@ -5598,19 +4815,6 @@ data_frame_roselli <- data.frame(word = names(sort_roselli), freq = sort_roselli
 top_10_roselli <- data_frame_roselli %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_roselli, 
-       aes(
-         label = word, size = top_10_roselli$freq,
-         color = factor(sample.int(10, nrow(top_10_roselli), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Roselli",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Al Dente Tweets#
 al_dente <- c('"al dente"', "pasta")
 al_dente_search <- paste(al_dente, collapse = " AND ")
@@ -5642,7 +4846,7 @@ remove_stop_al_dente <- tm_map(remove_num_al_dente, removeWords, stopwords("engl
 
 remove_white_al_dente <- tm_map(remove_stop_al_dente, stripWhitespace)
 
-remove_words_al_dente <- tm_map(remove_white_al_dente, removeWords, c("al dente", "al dentes", "al", "als", "dente", "dentes", "pasta", "pastas", "amp"))
+remove_words_al_dente <- tm_map(remove_white_al_dente, removeWords, c("al dente", "al dentes", "al", "als", "dente", "dentes", "pasta", "pastas", "amp", "don"))
 
 matrix_al_dente <- TermDocumentMatrix((remove_words_al_dente))
 matrix_al_dente_2 <- as.matrix(matrix_al_dente)
@@ -5652,18 +4856,8 @@ data_frame_al_dente <- data.frame(word = names(sort_al_dente), freq = sort_al_de
 top_10_al_dente <- data_frame_al_dente %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_al_dente, 
-       aes(
-         label = word, size = top_10_al_dente$freq,
-         color = factor(sample.int(10, nrow(top_10_al_dente), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Al Dente",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+al_dente_final <- crossing(top_10_al_dente, brand = "Al Dente")
+al_dente_final
 
 #Moonlite Tweets#
 moonlite <- c("moonlite", "syrup")
@@ -5706,19 +4900,6 @@ data_frame_moonlite <- data.frame(word = names(sort_moonlite), freq = sort_moonl
 top_10_moonlite <- data_frame_moonlite %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_moonlite, 
-       aes(
-         label = word, size = top_10_moonlite$freq,
-         color = factor(sample.int(10, nrow(top_10_moonlite), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Moonlite",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Candoni Tweets#
 candoni <- c("candoni", "pasta")
 candoni_search <- paste(candoni, collapse = " AND ")
@@ -5759,19 +4940,6 @@ data_frame_candoni <- data.frame(word = names(sort_candoni), freq = sort_candoni
 
 top_10_candoni <- data_frame_candoni %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_candoni, 
-       aes(
-         label = word, size = top_10_candoni$freq,
-         color = factor(sample.int(10, nrow(top_10_candoni), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Candoni",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Mlinotst Tweets#
 mlinotst <- c("mlinotst", "pasta")
@@ -5814,20 +4982,6 @@ data_frame_mlinotst <- data.frame(word = names(sort_mlinotst), freq = sort_mlino
 top_10_mlinotst <- data_frame_mlinotst %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_mlinotst, 
-       aes(
-         label = word, size = top_10_mlinotst$freq,
-         color = factor(sample.int(10, nrow(top_10_mlinotst), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Mlinotst",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
-
 #Silver Palate Tweets#
 silver_palate <- c('"silver palate"', "pasta")
 silver_palate_search <- paste(silver_palate, collapse = " AND ")
@@ -5859,7 +5013,7 @@ remove_stop_silver_palate <- tm_map(remove_num_silver_palate, removeWords, stopw
 
 remove_white_silver_palate <- tm_map(remove_stop_silver_palate, stripWhitespace)
 
-remove_words_silver_palate <- tm_map(remove_white_silver_palate, removeWords, c("silver palate", "silver palates", "silver", "silvers", "palate", "palates", "pasta", "pastas", "amp"))
+remove_words_silver_palate <- tm_map(remove_white_silver_palate, removeWords, c("silver palate", "silver palates", "silver", "silvers", "palate", "palates", "pasta", "pastas", "amp", "sdncfcoct", "yqsaqxfvbp", "sauces"))
 
 matrix_silver_palate <- TermDocumentMatrix((remove_words_silver_palate))
 matrix_silver_palate_2 <- as.matrix(matrix_silver_palate)
@@ -5869,18 +5023,8 @@ data_frame_silver_palate <- data.frame(word = names(sort_silver_palate), freq = 
 top_10_silver_palate <- data_frame_silver_palate %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_silver_palate, 
-       aes(
-         label = word, size = top_10_silver_palate$freq,
-         color = factor(sample.int(10, nrow(top_10_silver_palate), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Silver Palate",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+silver_palate_final <- crossing(top_10_silver_palate, brand = "Silver Palate")
+silver_palate_final
 
 #Edd Og Tweets#
 edd_og <- c('"edd og"', "pasta")
@@ -5923,19 +5067,6 @@ data_frame_edd_og <- data.frame(word = names(sort_edd_og), freq = sort_edd_og)
 top_10_edd_og <- data_frame_edd_og %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_edd_og, 
-       aes(
-         label = word, size = top_10_edd_og$freq,
-         color = factor(sample.int(10, nrow(top_10_edd_og), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Edd Og",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Michele's Tweets#
 micheles <- c("michele's", "syrup")
 micheles_search <- paste(micheles, collapse = " AND ")
@@ -5977,19 +5108,6 @@ data_frame_micheles <- data.frame(word = names(sort_micheles), freq = sort_miche
 top_10_micheles <- data_frame_micheles %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_micheles, 
-       aes(
-         label = word, size = top_10_micheles$freq,
-         color = factor(sample.int(10, nrow(top_10_micheles), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Michele's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Cucina Tweets#
 cucina <- c("cucina", "pasta")
 cucina_search <- paste(cucina, collapse = " AND ")
@@ -6021,7 +5139,7 @@ remove_stop_cucina <- tm_map(remove_num_cucina, removeWords, stopwords("english"
 
 remove_white_cucina <- tm_map(remove_stop_cucina, stripWhitespace)
 
-remove_words_cucina <- tm_map(remove_white_cucina, removeWords, c("cucina", "cucinas", "pasta", "pastas", "amp"))
+remove_words_cucina <- tm_map(remove_white_cucina, removeWords, c("cucina", "cucinas", "pasta", "pastas", "amp", "also"))
 
 matrix_cucina <- TermDocumentMatrix((remove_words_cucina))
 matrix_cucina_2 <- as.matrix(matrix_cucina)
@@ -6031,18 +5149,8 @@ data_frame_cucina <- data.frame(word = names(sort_cucina), freq = sort_cucina)
 top_10_cucina <- data_frame_cucina %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_cucina, 
-       aes(
-         label = word, size = top_10_cucina$freq,
-         color = factor(sample.int(10, nrow(top_10_cucina), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Cucina",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+cucina_final <- crossing(top_10_cucina, brand = "Cucina")
+cucina_final
 
 #Quinoa Tweets#
 quinoa <- c("quinoa", "pasta")
@@ -6075,7 +5183,7 @@ remove_stop_quinoa <- tm_map(remove_num_quinoa, removeWords, stopwords("english"
 
 remove_white_quinoa <- tm_map(remove_stop_quinoa, stripWhitespace)
 
-remove_words_quinoa <- tm_map(remove_white_quinoa, removeWords, c("quinoa", "quinoas"))
+remove_words_quinoa <- tm_map(remove_white_quinoa, removeWords, c("quinoa", "quinoas", "amp", "pasta"))
 
 matrix_quinoa <- TermDocumentMatrix((remove_words_quinoa))
 matrix_quinoa_2 <- as.matrix(matrix_quinoa)
@@ -6085,18 +5193,8 @@ data_frame_quinoa <- data.frame(word = names(sort_quinoa), freq = sort_quinoa)
 top_10_quinoa <- data_frame_quinoa %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_quinoa, 
-       aes(
-         label = word, size = top_10_quinoa$freq,
-         color = factor(sample.int(10, nrow(top_10_quinoa), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Quinoa",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+quinoa_final <- crossing(top_10_quinoa, brand = "Quinoa")
+quinoa_final
 
 #M C Tweets#
 m_c <- c('"m c"', "pasta")
@@ -6139,18 +5237,8 @@ data_frame_m_c <- data.frame(word = names(sort_m_c), freq = sort_m_c)
 top_10_m_c <- data_frame_m_c %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_m_c, 
-       aes(
-         label = word, size = top_10_m_c$freq,
-         color = factor(sample.int(10, nrow(top_10_m_c), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - M C",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+m_c_final <- crossing(top_10_m_c, brand = "M C")
+m_c_final
 
 #RAC Tweets#
 rac <- c("rac", "pasta")
@@ -6183,7 +5271,7 @@ remove_stop_rac <- tm_map(remove_num_rac, removeWords, stopwords("english"))
 
 remove_white_rac <- tm_map(remove_stop_rac, stripWhitespace)
 
-remove_words_rac <- tm_map(remove_white_rac, removeWords, c("rac", "racs", "pasta", "pastas", "amp"))
+remove_words_rac <- tm_map(remove_white_rac, removeWords, c("rac", "racs", "pasta", "pastas", "amp", "just", "please"))
 
 matrix_rac <- TermDocumentMatrix((remove_words_rac))
 matrix_rac_2 <- as.matrix(matrix_rac)
@@ -6193,18 +5281,8 @@ data_frame_rac <- data.frame(word = names(sort_rac), freq = sort_rac)
 top_10_rac <- data_frame_rac %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_rac, 
-       aes(
-         label = word, size = top_10_rac$freq,
-         color = factor(sample.int(10, nrow(top_10_rac), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - RAC",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+rac_final <- crossing(top_10_rac, brand = "RAC")
+rac_final
 
 #Barilla Plus Tweets#
 barilla_plus <- c('"barilla plus"', "pasta")
@@ -6247,19 +5325,6 @@ data_frame_barilla_plus <- data.frame(word = names(sort_barilla_plus), freq = so
 top_10_barilla_plus <- data_frame_barilla_plus %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_barilla_plus, 
-       aes(
-         label = word, size = top_10_barilla_plus$freq,
-         color = factor(sample.int(10, nrow(top_10_barilla_plus), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Barilla Plus",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Sinatra's Tweets#
 sinatras <- c("sinatra's", "pasta")
 sinatras_search <- paste(sinatras, collapse = " AND ")
@@ -6291,7 +5356,7 @@ remove_stop_sinatras <- tm_map(remove_num_sinatras, removeWords, stopwords("engl
 
 remove_white_sinatras <- tm_map(remove_stop_sinatras, stripWhitespace)
 
-remove_words_sinatras <- tm_map(remove_white_sinatras, removeWords, c("sinatra's", "sinatras", "sinatra", "pasta", "pastas", "amp"))
+remove_words_sinatras <- tm_map(remove_white_sinatras, removeWords, c("sinatra's", "sinatras", "sinatra", "pasta", "pastas", "amp", "got", "sinatrasays"))
 
 matrix_sinatras <- TermDocumentMatrix((remove_words_sinatras))
 matrix_sinatras_2 <- as.matrix(matrix_sinatras)
@@ -6301,18 +5366,8 @@ data_frame_sinatras <- data.frame(word = names(sort_sinatras), freq = sort_sinat
 top_10_sinatras <- data_frame_sinatras %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_sinatras, 
-       aes(
-         label = word, size = top_10_sinatras$freq,
-         color = factor(sample.int(10, nrow(top_10_sinatras), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Sinatra's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+sinatras_final <- crossing(top_10_sinatras, brand = "Sinatra's")
+sinatras_final
 
 #Mom's Tweets#
 moms <- c("mom's", "pasta")
@@ -6345,7 +5400,7 @@ remove_stop_moms <- tm_map(remove_num_moms, removeWords, stopwords("english"))
 
 remove_white_moms <- tm_map(remove_stop_moms, stripWhitespace)
 
-remove_words_moms <- tm_map(remove_white_moms, removeWords, c("mom's", "moms", "mom", "pasta", "pastas", "amp"))
+remove_words_moms <- tm_map(remove_white_moms, removeWords, c("mom's", "moms", "mom", "pasta", "pastas", "amp", "made", "sauce", "making"))
 
 matrix_moms <- TermDocumentMatrix((remove_words_moms))
 matrix_moms_2 <- as.matrix(matrix_moms)
@@ -6355,18 +5410,8 @@ data_frame_moms <- data.frame(word = names(sort_moms), freq = sort_moms)
 top_10_moms <- data_frame_moms %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_moms, 
-       aes(
-         label = word, size = top_10_moms$freq,
-         color = factor(sample.int(10, nrow(top_10_moms), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Mom's",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+moms_final <- crossing(top_10_moms, brand = "Mom's")
+moms_final
 
 #Bionature Tweets#
 bionature <- c("bionature", "pasta")
@@ -6408,19 +5453,6 @@ data_frame_bionature <- data.frame(word = names(sort_bionature), freq = sort_bio
 
 top_10_bionature <- data_frame_bionature %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_bionature, 
-       aes(
-         label = word, size = top_10_bionature$freq,
-         color = factor(sample.int(10, nrow(top_10_bionature), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Bionature",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Private Label Premium Tweets#
 private_label_premium <- c("pancake", "pasta", "syrup")
@@ -6465,19 +5497,6 @@ data_frame_private_label_premium <- data.frame(word = names(sort_private_label_p
 top_10_private_label_premium <- data_frame_private_label_premium %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_private_label_premium, 
-       aes(
-         label = word, size = top_10_private_label_premium$freq,
-         color = factor(sample.int(10, nrow(top_10_private_label_premium), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Private Label Premium",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
-
 #Private Label Tweets#
 private_label <- c("pancake", "pasta", "syrup")
 private_label_combine <- paste(private_label, collapse = " OR ")
@@ -6520,19 +5539,6 @@ data_frame_private_label <- data.frame(word = names(sort_private_label), freq = 
 
 top_10_private_label <- data_frame_private_label %>%
   arrange(desc(freq)) %>% head(10)
-
-set.seed(1234)
-ggplot(top_10_private_label, 
-       aes(
-         label = word, size = top_10_private_label$freq,
-         color = factor(sample.int(10, nrow(top_10_private_label), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Private Label",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
 
 #Private Label Value Tweets#
 private_label_value <- c("pasta", "syrup")
@@ -6577,15 +5583,6 @@ data_frame_private_label_value <- data.frame(word = names(sort_private_label_val
 top_10_private_label_value <- data_frame_private_label_value %>%
   arrange(desc(freq)) %>% head(10)
 
-set.seed(1234)
-ggplot(top_10_private_label_value, 
-       aes(
-         label = word, size = top_10_private_label_value$freq,
-         color = factor(sample.int(10, nrow(top_10_private_label_value), replace = TRUE)), 
-       )
-) +
-  geom_text_wordcloud_area() +
-  scale_size_area(max_size = 24) + 
-  theme_minimal() +
-  labs(title = "Word Cloud: Tweets Using the Word - Private Label Value",
-       subtitle = "This shows text mining of twitter data. This shows the top 10 words.")
+#Combine twitter datasets#
+twitter_data <- rbind(miller_final, barilla_final, golden_eagle_final, rr_final, alaga_final, creamette_final, bisquick_final, hungry_jack_final, kraft_final, dececco_final, eden_final, pomi_final, hunts_final, vita_final, mothers_final, mueller_final, la_moderna_final, aunt_jemima_final, tree_of_life_final, ronzoni_final, san_giorgio_final, ragu_final, bertolli_final, davinci_final, kellogg_final, colavita_final, san_marzano_final, classico_final, krusteaz_final, pioneer_final, buitoni_final, mrs_butterworth_final, raos_final, karo_final, prego_final, joeys_final, smuckers_final, daves_final, brothers_final, orzo_final, howards_final, knotts_final, hodgson_mills_final, amore_final, no_yolks_final, rf_final, hse_final, maple_grove_final, lyles_final, eddie_final, northwoods_final, al_dente_final, cucina_final, silver_palate_final, quinoa_final, m_c_final, rac_final, moms_final, sinatras_final)
+twitter_data

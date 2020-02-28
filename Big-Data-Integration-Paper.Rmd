@@ -57,7 +57,11 @@ The data that we wanted to evaluate for this project came from two sources. The 
 
 The pasta, pasta sauce, syrup, and pancake mix household level transaction data was obtained through a loyalty card program of a leading US grocer. These transactions were monitored over two years and a total of over 5 million specific product purchases. These 5 million specific product purchases were documented across 387 unique stores of the leading US grocer. A total of 927 different products within the four commodities were recorded during this period. Furthermore, each product’s location within a specific weekly mailer was documented and tracked over the monitored two year period. 
 
+Below is the overall view of the table:
+![Carbo-loading-Tables](Carbo-Loading.PNG)
+
 **Transactions Dataset Table**
+For the entire two year period in our data, 2500 frequent shoppers were tracked on the basis of the grocery transactions. Every single purchase is accounted for,on every single shopping trip. Price information, coupon use information is readily available. The quantity of a specific product is also measured.
 
 Variable | Description 
 ---------|------------
@@ -74,6 +78,7 @@ day | This is the day that this product was purchased. The range of values is 1 
 coupon | This is dummy variable to notify whether a coupon was used. The possible value is 1 or 0. 1 means a coupon was used. 0 means a coupon wasn't used. 
 
 **Store Lookup Dataset Table**
+In this dataset, a unique number has been assigned to the store for unique indentification, along with the zip-code where store is located.
 
 Variable | Description 
 ---------|------------
@@ -81,6 +86,7 @@ store | This value is a unique number assigned to each store.
 store_zip_code | This is the 5 digit zip code for the store. 
 
 **Product Lookup Dataset Table**
+This dataset contains only 4 commodities, i.e., pasta, pasta sauce, syrup, and pancake mix over 957 different products.
 
 Variable | Description
 ---------|------------
@@ -91,6 +97,7 @@ brand | This is the brand name of the product.
 product_size | This is the size of the product. These aren't all in the same measurement. 
 
 **Casual Lookup Dataset Table**
+The below dataset describes where the product is physcially located in the store. Along with that, column feature_desc describes the location of the advertisment in the weekly ad section.
 
 Variable | Description
 ---------|------------

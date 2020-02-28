@@ -55,6 +55,8 @@ library(tidyr)
 ### 84.51 Data Source
 The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the casual_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description. 
 
+The pasta, pasta sauce, syrup, and pancake mix household level transaction data was obtained through a loyalty card program of a leading US grocer. These transactions were monitored over two years and a total of over 5 million specific product purchases. These 5 million specific product purchases were documented across 387 unique stores of the leading US grocer. A total of 927 different products within the four commodities were recorded during this period. Furthermore, each product’s location within a specific weekly mailer was documented and tracked over the monitored two year period. 
+
 **Transactions Dataset Table**
 
 Variable | Description 
@@ -101,8 +103,8 @@ geography | This label tells you where it was purchased out of the two large reg
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
 transaction <- read_csv("transactions.csv")
@@ -139,7 +141,8 @@ zip| zip code
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 
 #Read the zip dataset into R#
 zip <- read_csv("zip.csv")

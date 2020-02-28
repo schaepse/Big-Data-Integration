@@ -3,15 +3,6 @@ setwd("~/Big-Data-Integration")
 
 #Read packages into script#
 library(tidyverse)
-library(readr)
-library(tidyr)
-library(ggplot2)
-library(DT)
-library(shiny)
-library(pastecs)
-library(tibble)
-library(mapdata)
-library(rtweet)
 library(tm)
 library(ggwordcloud)
 
@@ -61,6 +52,7 @@ data_frame_vin <- data.frame(word = names(sort_vin), freq = sort_vin)
 
 top_25_vin <- data_frame_vin %>%
   top_n(25)
+top_25_vin
 
 set.seed(1234)
 ggplot(top_25_vin, 

@@ -101,8 +101,8 @@ geography | This label tells you where it was purchased out of the two large reg
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
 transaction <- read_csv("transactions.csv")
@@ -183,7 +183,8 @@ write.csv(twitter_data, "twitter_data.csv")
 ```{r}
 #This is the code we used to read the dataset into R#
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the dataset into R#
 twitter_data <- read_csv("twitter_data.csv")
 #See a preview of the dataset#
@@ -208,8 +209,8 @@ zip| zip code
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the zip dataset into R#
 zip <- read_csv("zip.csv")
 ```
@@ -480,4 +481,6 @@ map
 
 ### Issues Encountered
 
-### Possible Future Steps 
+### Possible Future Steps
+
+In the future scope, the team has intended to study the interaction between two pairs of products - Pasta with Pasta Sauce and Syrup with Pancake Mix.The team might plan to ascertain the recognition index for every commodity and brand combination. Then,further analyze the amount of association between pairs of brands each belonging to at least one of the commodities(E.g. Brand X of Pasta Sauce with Brand Y of Pasta).

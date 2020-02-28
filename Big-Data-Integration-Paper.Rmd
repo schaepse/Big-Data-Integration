@@ -27,6 +27,10 @@ install.packages("shiny")
 install.packages("DT")
 install.packages("ggplot2")
 install.packages("plotly")
+install.packages("tidyverse")
+install.packages("tm")
+install.packages("ggwordcloud")
+install.packages("tidyr")
 ```
 
 ```{r eval = FALSE}
@@ -42,6 +46,10 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(plotly)
+library(tidyverse)
+library(tm)
+library(ggwordcloud)
+library(tidyr)
 ```
 
 ### 84.51 Data Source

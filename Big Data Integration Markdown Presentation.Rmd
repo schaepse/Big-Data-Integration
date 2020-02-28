@@ -29,6 +29,10 @@ install.packages("shiny")
 install.packages("DT")
 install.packages("ggplot2")
 install.packages("plotly")
+install.packages("tidyverse")
+install.packages("tm")
+install.packages("ggwordcloud")
+install.packages("tidyr")
 ```
 
 ```{r results = "hide", warning = FALSE, message = FALSE}
@@ -40,6 +44,10 @@ library(shiny)
 library(DT)
 library(ggplot2)
 library(plotly)
+library(tidyverse)
+library(tm)
+library(ggwordcloud)
+library(tidyr)
 ```
 
 ### Data Sources

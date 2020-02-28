@@ -132,6 +132,9 @@ head(store)
 ### Twitter Data Source
 The final source of data we used for our projet was from [Twitter](http://apps.twitter.com). We had to create a developer account in order to get access to these tweets. In this project, we were hoping to pull this data manually to get customer opinions about brands. The way we pulled these tweets down manually was through using the search tweets package in R, and we searched through twitter to find these tweets by searching on the brand name and the food category of the brand. Next, we cleaned these results by focusing just on the tweet, removing emojis, removing urls, lowering the case of the tweets, removing the punctation, removing the numbers, removing stop words, removing white space, and removing additional words that we don't want to evaluate. After we cleaned the tweets, we separated the tweets into words, counted these words, and filtered on the top 10 words. After collecting these results, we created a data frame from all these results. If a brand and category didn't show a result, we put NA for these word results. Below is a table of the dataset we created manually, and this table shows the variables and description. 
 
+```{r}
+```
+
 **Twitter Dataset Table**
 
 Variable | Description 

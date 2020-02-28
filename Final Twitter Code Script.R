@@ -5585,4 +5585,65 @@ top_10_private_label_value <- data_frame_private_label_value %>%
 
 #Combine twitter datasets#
 twitter_data <- rbind(miller_final, barilla_final, golden_eagle_final, rr_final, alaga_final, creamette_final, bisquick_final, hungry_jack_final, kraft_final, dececco_final, eden_final, pomi_final, hunts_final, vita_final, mothers_final, mueller_final, la_moderna_final, aunt_jemima_final, tree_of_life_final, ronzoni_final, san_giorgio_final, ragu_final, bertolli_final, davinci_final, kellogg_final, colavita_final, san_marzano_final, classico_final, krusteaz_final, pioneer_final, buitoni_final, mrs_butterworth_final, raos_final, karo_final, prego_final, joeys_final, smuckers_final, daves_final, brothers_final, orzo_final, howards_final, knotts_final, hodgson_mills_final, amore_final, no_yolks_final, rf_final, hse_final, maple_grove_final, lyles_final, eddie_final, northwoods_final, al_dente_final, cucina_final, silver_palate_final, quinoa_final, m_c_final, rac_final, moms_final, sinatras_final)
-twitter_data
+head(twitter_data)
+
+#Read the transactions and product datasets into R#
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+transaction <- read_csv("transactions.csv")
+product <-read_csv("product_lookup.csv")
+
+#Transformation of the dataset before the join#
+product_transform <- transform(product, upc = as.character(upc))
+
+#Inner join of product and transaction dataset#
+prod_trans <- inner_join(transaction, product_transform, by = c("upc"))
+head(prod_trans)
+
+#Group by brand to show the sum of sales#
+prod_trans_group <- prod_trans %>%
+  group_by(brand, commodity) %>%
+  summarise(brand_total_sales = sum(dollar_sales, na.rm = TRUE)) %>%
+  arrange(brand_total_sales)
+#Top 5 worst performing brands overall
+head(prod_trans_group, 5)
+#Top 5 Worst performing brands for pasta#
+prod_trans_group_pasta <- prod_trans_group %>%
+  filter(commodity == "pasta") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_pasta, 5)
+#Top 5 Worst performing brands for pasta sauce#
+prod_trans_group_pasta_sauce <- prod_trans_group %>%
+  filter(commodity == "pasta sauce") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_pasta_sauce, 5)
+#Top 5 Worst performing brands for syrups#
+prod_trans_group_syrups <- prod_trans_group %>%
+  filter(commodity == "syrups") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_syrups, 5)
+#Top 5 Worst performing brands for pancake mixes#
+prod_trans_group_pancake_mixes <- prod_trans_group %>%
+  filter(commodity == "pancake mixes") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_pancake_mixes, 5)
+
+#Left join on group data and twitter data#
+prod_trans_group_twitter <- left_join(prod_trans_group, twitter_data, by = "brand")
+head(prod_trans_group_twitter)
+
+#Shiny app for word cloud of twitter data#
+shinyApp(
+  ui = fluidPage(selectInput("brand", "Select the brand you want to evaluate:", choices = sort(unique(prod_trans_group_twitter$brand)), multiple = FALSE), plotOutput("word", height = 300, width = 700)),
+  server = function(input, output) {selected_data_tab <- reactive({req(input$brand)
+    prod_trans_group_twitter %>%
+      dplyr::filter(brand %in% input$brand)})
+  output$word <- renderPlot({
+    ggplot(selected_data_tab(), aes(label = word, size = freq)) +
+      geom_text_wordcloud_area() +
+      scale_size_area(max_size = 24) +
+      theme_minimal()+
+      labs(title = "Word Cloud: Tweets Using this Brand", 
+           subtitle = "This shows text mining of twitter data. This shows the top 10 words for this brand. The larger the word the higher the frequency of the word.")
+  })},
+options = list(height = 1200))
+

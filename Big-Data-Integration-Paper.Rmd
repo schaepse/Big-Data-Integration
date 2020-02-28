@@ -110,8 +110,8 @@ geography | This label tells you where it was purchased out of the two large reg
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
 transaction <- read_csv("transactions.csv")
@@ -150,8 +150,8 @@ zip| zip code
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 
 #Read the zip dataset into R#
 zip <- read_csv("zip.csv")

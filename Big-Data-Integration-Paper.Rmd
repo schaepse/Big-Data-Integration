@@ -11,7 +11,7 @@ We had a variety of questions we wanted to answer in this project. We formualted
 * Does location of the product within the store and ad impact sales of the product? What is the optimal location within the store and ads?
 * What amounts of each product should we plan to have in inventory on average daily based on these sales?  
 
-For the first question, we thought that the twitter dataset, product_lookup dataset, and transactions dataset would provide us insight into answering this question. For the second question, we thought that the transactions dataset and casual_lookup dataset would provide us information into answering this question. For the third question, we thought that the transactions dataset, store_lookup dataset, and product_lookup dataset would help us discover the answer to this question. 
+For the first question, we thought that the twitter dataset, product_lookup dataset, and transactions dataset would provide us insight into answering this question. For the second question, we thought that the transactions dataset and causal_lookup dataset would provide us information into answering this question. For the third question, we thought that the transactions dataset, store_lookup dataset, and product_lookup dataset would help us discover the answer to this question. 
 
 We thought the first question would be insightful to the business, because a company should know what customers think of the brands they partner with. A company likely wouldn't want to work with a brand that has a bad image to its customers, because they likely wouldn't sell many of the products associated with that brand. In addition, we considered the second question to be a great question to answer, because we thought this could help Kroger's marketing strategy. The marketing strategy would be improved with this knowledge, because the marketers would have more knowledge of the optimal locations for high product sales in the weekly ad and stores. The final question would be great for a busines to know, because this knowledge would help improve a company's inventory strategy. This strategy would improve, because you possibly could improve your inventory prediction levels for each store from using the data instead of just guessing. 
 
@@ -53,7 +53,7 @@ library(tidyr)
 ```
 
 ### 84.51 Data Source
-The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the casual_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description. 
+The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the causal_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description. 
 
 The pasta, pasta sauce, syrup, and pancake mix household level transaction data was obtained through a loyalty card program of a leading US grocer. These transactions were monitored over two years and a total of over 5 million specific product purchases. These 5 million specific product purchases were documented across 387 unique stores of the leading US grocer. A total of 927 different products within the four commodities were recorded during this period. Furthermore, each product’s location within a specific weekly mailer was documented and tracked over the monitored two year period. 
 
@@ -96,7 +96,7 @@ commodity | This is the category of the product. The four possibly values are pa
 brand | This is the brand name of the product. 
 product_size | This is the size of the product. These aren't all in the same measurement. 
 
-**Casual Lookup Dataset Table**
+**Causal Lookup Dataset Table**
 The below dataset describes where the product is physcially located in the store. Along with that, column feature_desc describes the location of the advertisment in the weekly ad section.
 
 Variable | Description
@@ -118,6 +118,8 @@ transaction <- read_csv("transactions.csv")
 product <-read_csv("product_lookup.csv")
 store <- read_csv("store_lookup.csv")
 ```
+
+The below code, will publish the top 5 rows of the dataset,i.e., causal lookup, transactions over 2 year period, product and store information.
 
 ```{r}
 #View snippets of the dataset#
@@ -161,6 +163,12 @@ head(zip)
 ```
 
 ### Data Integration Process 
+The team has integrated the data based on the questions that we need to address:
+
+1. To find the impact of product placement and ads on the sales of a product in a particular store, we are joining causal and transaction tables with the store, upc, and week as the common attribute. We are analyzing this combined data for approximately a year to negate any seasonal bias.
+
+2. Since our dataset is huge and consists of many columns that do not influence the analysis, we are dropping them. They just eat up memory space and slow down processing. So we are using the columns only which add value to our analysis viz, upc, units, week, store, day and product description.
+
 ```{r}
 #Clean the files before the inner join for Question 2#
 causal_select <- causal %>%
@@ -211,7 +219,12 @@ transaction_product_store_zip <- inner_join(zip_map_data_2, zip_transform, by = 
 head(transaction_product_store_zip)
 ```
 
-### Schema Alignment 
+#### Schema Alignment 
+At the initial stages of your big data analysis, you're not going to possess the identical level of control over data definitions as you are doing together with your operational data. However, once you have got identified the patterns that are most relevant to your business, you wish the potential to map data elements to a standard definition. That common definition is then carried forward into operational data, data warehouses, reporting, and business processes.
+
+The traditional approach of schema alignment consists of three main steps - creating a mediated schema, attribute matching and schema mapping. First, a mediated schema is created by unifying the schemas of the data sources being integrated. Queries to the data integration system are formulated on this mediated schema. Next is the attribute matching step which specifies how attribute values from different schemas are to be matched for equality in the mediated schema. In many cases the attribute correspondence is one-to-one however, sometimes one attribute may correspond to a combination of several attributes in the source schema. The last stage is the Schema Mapping which is built between each source schema and the mediated schema. The problem of establishing associations between data under different schemas is at the core of many data integration and data sharing tasks.
+
+But during our data analysis, we came to the conclusion that, data provided by 8451 is homogeneous and every table is independent. The most significant conclusion that team withdrew during the analysis was every table was linked with other table using Foreign Keys. Finally, again reading the carbo-loading paper, the team gets to know that, the dataset provided by the 8451 is subset of their relational databases, and these datasets belong to the same dataset, hence we didn't require to do schema alignment.
 #### Record Linkage 
 #### Data Fusion
 ### Final Results and Analyzing These Results 

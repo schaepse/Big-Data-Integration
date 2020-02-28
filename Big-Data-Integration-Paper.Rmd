@@ -235,6 +235,7 @@ The team has integrated the data based on the questions that we need to address:
 2. Since our dataset is huge and consists of many columns that do not influence the analysis, we are dropping them. They just eat up memory space and slow down processing. So we are using the columns only which add value to our analysis viz, upc, units, week, store, day and product description.
 
 ```{r}
+#Transformations of the datasets#
 #Clean the files before the inner join for Question 2#
 causal_select <- causal %>%
   select(upc, store, week, feature_desc, display_desc)
@@ -242,20 +243,12 @@ transaction_clean <- transaction %>%
   filter(week > 42) %>%
   select(upc, dollar_sales, units, week, store)
 
-#Inner join for Question 2#
-causal_trans <- inner_join(causal_select, transaction_clean, by = c("upc", "store", "week"))
-tibble(causal_trans)
-```
-
-```{r}
 #Make some transformations of the data for Question 3#
 product_transform <- transform(product, upc = as.character(upc))
 store_transform <- transform(store, store_zip_code = as.character(store_zip_code))
 names(store_transform)[2] <- "Zip"
 zip_transform <- transform(zip, Zip = as.character(Zip))
-```
 
-```{r}
 #Select the columns needed from each of the datasets for Question 3#
 transaction_select <- transaction %>%
   select(upc, units, week, store, day)
@@ -263,7 +256,36 @@ product_select <- product_transform %>%
   select(upc, product_description)
 store_select <- store_transform %>%
   select(store, Zip)
+```
 
+```{r}
+#First Inner Join for Question 1#
+prod_trans <- inner_join(transaction, product_transform, by = c("upc"))
+head(prod_trans)
+```
+
+```{r}
+#Group by brand to show the sum of sales for Question 1#
+prod_trans_group <- prod_trans %>%
+  group_by(brand, commodity) %>%
+  summarise(brand_total_sales = sum(dollar_sales, na.rm = TRUE)) %>%
+  arrange(brand_total_sales)
+```
+
+```{r}
+#Second Inner Join for Question 1#
+#Left join on group data and twitter data#
+prod_trans_group_twitter <- left_join(prod_trans_group, twitter_data, by = "brand")
+head(prod_trans_group_twitter)
+```
+
+```{r}
+#Inner join for Question 2#
+causal_trans <- inner_join(causal_select, transaction_clean, by = c("upc", "store", "week"))
+tibble(causal_trans)
+```
+
+```{r}
 #Inner join on all these datasets for Question 3#
 transaction_product <- inner_join(transaction_select, product_select, by = "upc")
 head(transaction_product)  
@@ -302,6 +324,33 @@ During the data analysis, the came to the conclusion that, data provided by 8451
 
 
 ### Final Results and Analyzing These Results 
+```{r}
+#Question 1 Editing and Results#
+#Top 5 worst performing brands overall#
+head(prod_trans_group, 5)
+#Top 5 Worst performing brands for pasta#
+prod_trans_group_pasta <- prod_trans_group %>%
+  filter(commodity == "pasta") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_pasta, 5)
+#Top 5 Worst performing brands for pasta sauce#
+prod_trans_group_pasta_sauce <- prod_trans_group %>%
+  filter(commodity == "pasta sauce") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_pasta_sauce, 5)
+#Top 5 Worst performing brands for syrups#
+prod_trans_group_syrups <- prod_trans_group %>%
+  filter(commodity == "syrups") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_syrups, 5)
+#Top 5 Worst performing brands for pancake mixes#
+prod_trans_group_pancake_mixes <- prod_trans_group %>%
+  filter(commodity == "pancake mixes") %>%
+  arrange(brand_total_sales)
+head(prod_trans_group_pancake_mixes, 5)
+#We couldn't show the shiny ggplot word cloud because it is interactive and it doesn't show up in word documents. You can see the world cloud in the presentation. We will be providing images of the cloud to show you what it looks like#
+```
+
 ```{r}
 #Editing of the Combined Dataset to Find the Answers for Question 2#
 #Feature Description for Sales#

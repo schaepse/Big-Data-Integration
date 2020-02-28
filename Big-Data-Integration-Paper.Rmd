@@ -31,6 +31,7 @@ install.packages("tidyverse")
 install.packages("tm")
 install.packages("ggwordcloud")
 install.packages("tidyr")
+install.packets("rtweet")
 ```
 
 ```{r eval = FALSE}
@@ -50,6 +51,7 @@ library(tidyverse)
 library(tm)
 library(ggwordcloud)
 library(tidyr)
+library(rtweet)
 ```
 
 ### 84.51 Data Source
@@ -132,7 +134,67 @@ head(store)
 ### Twitter Data Source
 The final source of data we used for our projet was from [Twitter](http://apps.twitter.com). We had to create a developer account in order to get access to these tweets. In this project, we were hoping to pull this data manually to get customer opinions about brands. The way we pulled these tweets down manually was through using the search tweets package in R, and we searched through twitter to find these tweets by searching on the brand name and the food category of the brand. Next, we cleaned these results by focusing just on the tweet, removing emojis, removing urls, lowering the case of the tweets, removing the punctation, removing the numbers, removing stop words, removing white space, and removing additional words that we don't want to evaluate. After we cleaned the tweets, we separated the tweets into words, counted these words, and filtered on the top 10 words. After collecting these results, we created a data frame from all these results. If a brand and category didn't show a result, we put NA for these word results. Below is a table of the dataset we created manually, and this table shows the variables and description. 
 
+```{r eval = FALSE}
+#The below is an example of the code we wrote for each brand in order to get this twitter data. We had to alternate the brand name and commodity for each run of the twitter data#
+#Barilla Tweets#
+barilla <- c("barilla", "pasta")
+barilla_search <- paste(barilla, collapse = " AND ")
+barilla_tweets <- search_tweets(q = barilla_search, n = 1000, lang = "en", include_rts = FALSE)
+tibble(barilla_tweets)
+
+head(barilla_tweets$text)
+
+barilla_text <- barilla_tweets$text
+
+corpus_barilla <- Corpus(VectorSource(barilla_tweets$text))
+
+barilla_emoji_clean <- tm_map(corpus_barilla, content_transformer(gsub), pattern = "\\W", replace = " ")
+
+remove_urls <- function(x) gsub("http[^[:space:]]*", "", x)
+
+url_clean_barilla<- tm_map(barilla_emoji_clean, content_transformer(remove_urls))
+
+lower_barilla <- tm_map(url_clean_barilla, content_transformer(tolower))
+
+remove_items <- function(x) gsub("[^[:alpha:][:space:]]*", "", x)
+remove_barilla <- tm_map(lower_barilla, content_transformer(remove_items))
+
+remove_punct_barilla <- tm_map(remove_barilla, removePunctuation)
+
+remove_num_barilla <- tm_map(remove_punct_barilla, removeNumbers)
+
+remove_stop_barilla <- tm_map(remove_num_barilla, removeWords, stopwords("english"))
+
+remove_white_barilla <- tm_map(remove_stop_barilla, stripWhitespace)
+
+remove_words_barilla <- tm_map(remove_white_barilla, removeWords, c("barilla", "barillas", "cbarilla", "amp", "pasta", "pastas"))
+
+matrix_barilla <- TermDocumentMatrix((remove_words_barilla))
+matrix_barilla_2 <- as.matrix(matrix_barilla)
+sort_barilla <- sort(rowSums(matrix_barilla_2), decreasing = TRUE)
+data_frame_barilla <- data.frame(word = names(sort_barilla), freq = sort_barilla)
+
+top_10_barilla <- data_frame_barilla %>%
+  arrange(desc(freq)) %>% head(10)
+
+barilla_final <- crossing(top_10_barilla, brand = "Barilla")
+barilla_final
+
+#After we found this data, we combined the datasets together that had tweets that showed up. The code we used is below#
+twitter_data <- rbind(miller_final, barilla_final, golden_eagle_final, rr_final, alaga_final, creamette_final, bisquick_final, hungry_jack_final, kraft_final, dececco_final, eden_final, pomi_final, hunts_final, vita_final, mothers_final, mueller_final, la_moderna_final, aunt_jemima_final, tree_of_life_final, ronzoni_final, san_giorgio_final, ragu_final, bertolli_final, davinci_final, kellogg_final, colavita_final, san_marzano_final, classico_final, krusteaz_final, pioneer_final, buitoni_final, mrs_butterworth_final, raos_final, karo_final, prego_final, joeys_final, smuckers_final, daves_final, brothers_final, orzo_final, howards_final, knotts_final, hodgson_mills_final, amore_final, no_yolks_final, rf_final, hse_final, maple_grove_final, lyles_final, eddie_final, northwoods_final, al_dente_final, cucina_final, silver_palate_final, quinoa_final, m_c_final, rac_final, moms_final, sinatras_final)
+
+#After we finished combining the datasets, we saved the dataset as a csv file. The code is below for how we saved this dataset#
+write.csv(twitter_data, "twitter_data.csv")
+```
+
 ```{r}
+#This is the code we used to read the dataset into R#
+#Set the working directory#
+setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+#Read the dataset into R#
+twitter_data <- read_csv("twitter_data.csv")
+#See a preview of the dataset#
+head(twitter_data)
 ```
 
 **Twitter Dataset Table**

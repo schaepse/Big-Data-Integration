@@ -5586,6 +5586,7 @@ top_10_private_label_value <- data_frame_private_label_value %>%
 #Combine twitter datasets#
 twitter_data <- rbind(miller_final, barilla_final, golden_eagle_final, rr_final, alaga_final, creamette_final, bisquick_final, hungry_jack_final, kraft_final, dececco_final, eden_final, pomi_final, hunts_final, vita_final, mothers_final, mueller_final, la_moderna_final, aunt_jemima_final, tree_of_life_final, ronzoni_final, san_giorgio_final, ragu_final, bertolli_final, davinci_final, kellogg_final, colavita_final, san_marzano_final, classico_final, krusteaz_final, pioneer_final, buitoni_final, mrs_butterworth_final, raos_final, karo_final, prego_final, joeys_final, smuckers_final, daves_final, brothers_final, orzo_final, howards_final, knotts_final, hodgson_mills_final, amore_final, no_yolks_final, rf_final, hse_final, maple_grove_final, lyles_final, eddie_final, northwoods_final, al_dente_final, cucina_final, silver_palate_final, quinoa_final, m_c_final, rac_final, moms_final, sinatras_final)
 head(twitter_data)
+write.csv(twitter_data, "twitter_data.csv")
 
 #Read the transactions and product datasets into R#
 setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
@@ -5643,7 +5644,7 @@ shinyApp(
       scale_size_area(max_size = 24) +
       theme_minimal()+
       labs(title = "Word Cloud: Tweets Using this Brand", 
-           subtitle = "This shows text mining of twitter data. This shows the top 10 words for this brand. The larger the word the higher the frequency of the word.")
+           subtitle = "This shows text mining of twitter data. This shows the top 10 words for this brand. The larger the word the higher the frequency of the word. If nothing shows up, this means that there were no tweets about this brand.")
   })},
 options = list(height = 1200))
 

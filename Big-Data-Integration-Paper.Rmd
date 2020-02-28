@@ -457,14 +457,21 @@ head(zip_map_data, 5)
 
 ### Future Steps 
 ### Bibliography
- 
+"Exporting a dataset from R"
 http://www.instantr.com/2012/12/11/exporting-a-dataset-from-r/
+"Scatter Plots on Maps in R"
 https://plot.ly/r/scatter-plots-on-maps/
+"US Zip Code Latitude and Longitude"
 https://public.opendatasoft.com/explore/dataset/us-zip-code-latitude-and-longitude/export/
+"R - Add a new column to the data frame and duplicate the existing rows"
 https://stackoverflow.com/questions/48217301/r-add-a-new-column-to-the-data-frame-and-duplicate-the-existing-rows
+"Text Mining Twitter Data With TidyText in R"
 https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mining-twitter-data-intro-r/
+"Text mining: Twitter extraction and stepwise guide to generate a word cloud"
 https://towardsdatascience.com/text-mining-twitter-extraction-and-stepwise-guide-to-generate-a-word-cloud-a2c9d626008d
+"Carbo-Loading: A Relational Database"
 https://www.8451.com/area51
+"Search Tweets"
 https://developer.twitter.com/en/docs
 
 ### Additonal Significant Code 

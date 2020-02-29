@@ -469,7 +469,13 @@ head(zip_map_data, 5)
 From our study, we find that the average sale of the products we have considered across different stores in the city have been fairly consistent. There have been no considerable spikes except a few non-seasonal ones which we can consider as outliers since there is no specific trend to it. We feel that this is a fair justification since we are dealing with basic commodity products here. The sale of pasta and pancake mix can not be tied to any particular day or season logically. Their sale has been consistently high as can be seen from our analysis across all the stores in the city so Kroger should always keep an ample amount of stock always in their inventory, more for one particular brand compared to some other as can be seen from our analysis.
 
 We may want to change the products we are analyzing on for our future study to observe if there has been any pronounced trend in their sale. For instance, we may want to consider the sale of ice cream which should ideally sale more in summer than in winter.
+
 ### Future Steps 
+
+In the future, we intend to study if there is any interaction between related products like pasta and pasta sauce and syrup and pancake mix and determine if there is actually any association between the sale of these products. We shall also study if placing similar products together actually increases the sale of either of the products. For instance, we expect that putting pasta and pasta sauce together will logically result in increased sale for both the products rather than putting pasta and syrup together.
+
+We also want to do an association analysis between brands for such related products like do people who buy Pasta Sauce of Brand X also buys Pasta of Brand Y along with it. In such cases, we will be able to come up with better product placement and ad ideas.
+
 ### Bibliography
 "Exporting a dataset from R"
 http://www.instantr.com/2012/12/11/exporting-a-dataset-from-r/

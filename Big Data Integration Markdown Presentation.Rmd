@@ -479,8 +479,18 @@ map
 
 ### Lessons Learned 
 
+Doing this analysis on the 84.51 data was really insightful. We had the opportunity to learn a lot about new tools and packages in R. Using these packages, we were able to create tidy tables, handle large datasets, and do text mining on data. We were also able to learn more about Kroger's business. The products they use, the amount they stock, the best selling and worst selling products, the overall success of the company were all visible through this data. We were able to identify the most successful products and brands that were most preferred by the consumers. With this inference, Kroger can focus more on the consumer likes and tweak its stock according to that.  
+
 ### Issues Encountered
+
+The following issues that we had encountered are:
+1. The first issue we had encountered was on deciding the scope for the project. We had planned on doing an association mining for the products we have considered for our datasets but this did not turn out to be a great success since we do not have much experience in prescriptive analysis. 
+2. Initially we had planned to work on the entire dataset but as we proceeded, we noticed that the dataset consists of many irrelevant columns which were not of much use to our analysis. Deciding on the optimum number of columns to use for our analysis took us much time in the beginning.
+3. The unstructured data which we had used for our project was from [Twitter](http://apps.twitter.com). We had to create a developer account in order to get access to these tweets. This process was quite time consuming. Further, doing text mining on the dataset was also a complex job and we encountered several issues as we did it.
+4. We also felt that R was not as efficient as other big data analysis tools like Hadoop for very large datasets like the one we had initially considered for our analysis. It needed a lot of joins and other aggregation techniques to merge the datasets to come up with the expected analysis. We think it would have been easier to visualize and analyze the data had we used the key-value and map reduce concept in Hadoop.
 
 ### Possible Future Steps
 
-In the future scope, the team has intended to study the interaction between two pairs of products - Pasta with Pasta Sauce and Syrup with Pancake Mix.The team might plan to ascertain the recognition index for every commodity and brand combination. Then,further analyze the amount of association between pairs of brands each belonging to at least one of the commodities(E.g. Brand X of Pasta Sauce with Brand Y of Pasta).
+In the future, we intend to study if there is any interaction between related products like pasta and pasta sauce and syrup and pancake mix and determine if there is actually any association between the sale of these products. We shall also study if placing similar products together actually increases the sale of either of the products. For instance, we expect that putting pasta and pasta sauce together will logically result in increased sale for both the products rather than putting pasta and syrup together.
+
+We also want to do an association analysis between brands for such related products like do people who buy Pasta Sauce of Brand X also buys Pasta of Brand Y along with it. In such cases, we will be able to come up with better product placement and ad ideas.

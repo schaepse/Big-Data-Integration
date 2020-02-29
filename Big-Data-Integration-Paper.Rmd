@@ -16,7 +16,17 @@ For the first question, we thought that the twitter dataset, product_lookup data
 We thought the first question would be insightful to the business, because a company should know what customers think of the brands they partner with. A company likely wouldn't want to work with a brand that has a bad image to its customers, because they likely wouldn't sell many of the products associated with that brand. In addition, we considered the second question to be a great question to answer, because we thought this could help Kroger's marketing strategy. The marketing strategy would be improved with this knowledge, because the marketers would have more knowledge of the optimal locations for high product sales in the weekly ad and stores. The final question would be great for a busines to know, because this knowledge would help improve a company's inventory strategy. This strategy would improve, because you possibly could improve your inventory prediction levels for each store from using the data instead of just guessing. 
 
 ### Describe The Tools Used
-The tool that we used for this project was R Studio.
+Tools that we used were basically R packages which include resuable R functions. They come in really handy for complex data analysis as ours.
+
+The packages that we used are: \
+1. **readr** - to read files into R \
+2. **dplyr** - for data wrangling and manipulation \
+3. **tidyr** - for data cleaning \
+4. **shiny** - for creating interactive reports \
+5. **DT** - to include DataTables \
+6. **ggplot2** - for fancy visualizations \
+7. **plotly** - for interactive plots and graphs \
+
 
 ```{r eval = FALSE}
 #Packages that needed to be installed for this project#
@@ -121,7 +131,7 @@ product <-read_csv("product_lookup.csv")
 store <- read_csv("store_lookup.csv")
 ```
 
-The below code, will publish the top 5 rows of the dataset,i.e., causal lookup, transactions over 2 year period, product and store information.
+The below code will publish the top 5 rows of the dataset,i.e., causal lookup, transactions over 2 year period, product and store information.
 
 ```{r}
 #View snippets of the dataset#
@@ -454,7 +464,11 @@ zip_map_data <- transaction_product_store_zip %>%
 head(zip_map_data, 5)
 #We can't display the map because it is interactive. Below is an image of what the maap looks like. The code we used will be found in the additional code section of the paper#
 ```
+###Conclusion
 
+From our study, we find that the average sale of the products we have considered across different stores in the city have been fairly consistent. There have been no considerable spikes except a few non-seasonal ones which we can consider as outliers since there is no specific trend to it. We feel that this is a fair justification since we are dealing with basic commodity products here. The sale of pasta and pancake mix can not be tied to any particular day or season logically. Their sale has been consistently high as can be seen from our analysis across all the stores in the city so Kroger should always keep an ample amount of stock always in their inventory, more for one particular brand compared to some other as can be seen from our analysis.
+
+We may want to change the products we are analyzing on for our future study to observe if there has been any pronounced trend in their sale. For instance, we may want to consider the sale of ice cream which should ideally sale more in summer than in winter.
 ### Future Steps 
 ### Bibliography
 "Exporting a dataset from R"

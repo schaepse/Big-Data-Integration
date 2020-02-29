@@ -19,6 +19,16 @@ The following are the intital questions we thought we could answer with our data
 We thought the first question would be insightful to the business, because a company should know what customers think of the brands they partner with. A company likely wouldn't want to work with a brand that has a bad image to its customers, because they likely wouldn't sell many of the products associated with that brand. In addition, we considered the second question to be a great question to answer, because we thought this could help Kroger's marketing strategy. The marketing strategy would be improved with this knowledge, because the marketers would have more knowledge of the optimal locations for high product sales in the weekly ad and stores. The final question would be great for a busines to know, because this knowledge would help improve a company's inventory strategy. This strategy would improve, because you possibly could improve your inventory prediction levels for each store from using the data instead of just guessing. 
 
 ### Tools Used
+Tools that we used were basically R packages which include resuable R functions. They come in really handy for complex data analysis as ours.
+
+The packages that we used are: \
+1. **readr** - to read files into R \
+2. **dplyr** - for data wrangling and manipulation \
+3. **tidyr** - for data cleaning \
+4. **shiny** - for creating interactive reports \
+5. **DT** - to include DataTables \
+6. **ggplot2** - for fancy visualizations \
+7. **plotly** - for interactive plots and graphs \
 
 ```{r eval = FALSE}
 #Packages that needed to be installed for the project#
@@ -52,7 +62,9 @@ library(tidyr)
 
 ### Data Sources
 #### **84.51 Data Source**
-The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the casual_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description. 
+The data that we wanted to evaluate for this project came from two sources. The first source was from [84.51's website](https://www.8451.com/). The folder of data that we used from 84.51 are called the Carbo Loading datasets. There are a total of four datasets within this folder. The four datasets are called the casual_lookup, product_lookup, store_lookup, and transactions. According to the Carbo Loading guide provided, these datasets came from a relational database. Also, these datasets contain purchases at a household level over two years, and the datasets are filtered to only contain products from four categories. These four categories are pasta, pasta sauce, syrup, and pancake mix. In addition, the guide contained information pertaining to the variables within each of the datasets. The tables below show these variables and their description.
+Below is the overall view of the table:
+![Carbo-loading-Tables](Carbo-Loading.PNG)
 
 **Transactions Dataset Table**
 
@@ -101,8 +113,8 @@ geography | This label tells you where it was purchased out of the two large reg
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-#setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the datasets into R#
 causal <- read_csv("causal_lookup.csv")
 transaction <- read_csv("transactions.csv")
@@ -183,8 +195,8 @@ write.csv(twitter_data, "twitter_data.csv")
 ```{r}
 #This is the code we used to read the dataset into R#
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-#setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the dataset into R#
 twitter_data <- read_csv("twitter_data.csv")
 #See a preview of the dataset#
@@ -201,16 +213,27 @@ brand | This is the name of the brand.
 
 ##### **Zip Data Source**
 
+We have used Zip code from "US Zip Code Latitude and Longitude" to create our plotly map. The 84.51 datasets didn't have longitude and latitude, and we needed this in order to create our map. 
+
+
 **Zip Dataset Table**
 
 Variable | Description
 ---------|------------
-zip| zip code
+zip| A unique 5 digit number. This is the zip code. 
+city| This is the city of this zip code. 
+state|This is the state of this zip code
+latitude| This is the latitude of this zip code.
+longitude| This is the longitude of this zip code. 
+timezone| This is the timezone of this zip code. 
+daylight savings time flag | This notifies whether this zip has a daylight savings time flag.
+geopoint| This is the geopoint of this zip.
+
 
 ```{r eval = TRUE, results = "hide", fig.show = "hide", message = FALSE, warning = FALSE}
 #Set the working directory#
-setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
-#setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
+#setwd("~/8451_Carbo-Loading/Carbo-Loading CSV")
+setwd("E:/UC Study Material/Spring 2020/Flex 3/BDI/8451_Carbo-Loading/Carbo-Loading CSV")
 #Read the zip dataset into R#
 zip <- read_csv("zip.csv")
 ```
@@ -221,6 +244,19 @@ datatable(head(zip))
 ```
 
 ### Data Integration Process
+#### Schema Alignment 
+At the initial stages of your big data analysis, you're not going to possess the identical level of control over data definitions as you are doing together with your operational data. However, once you have got identified the patterns that are most relevant to your business, you wish the potential to map data elements to a standard definition. That common definition is then carried forward into operational data, data warehouses, reporting, and business processes.
+
+The traditional approach of schema alignment consists of three main steps - creating a mediated schema, attribute matching and schema mapping. First, a mediated schema is created by unifying the schemas of the data sources being integrated. Queries to the data integration system are formulated on this mediated schema. Next is the attribute matching step which specifies how attribute values from different schemas are to be matched for equality in the mediated schema. In many cases the attribute correspondence is one-to-one however, sometimes one attribute may correspond to a combination of several attributes in the source schema. The last stage is the Schema Mapping which is built between each source schema and the mediated schema. The problem of establishing associations between data under different schemas is at the core of many data integration and data sharing tasks.
+
+#### Record Linkage 
+After creating a mediated schema by integrating different sources, we observe that different sources provide value for the same attribute of the same entity. These values may often differ due to mistyping, multiple naming conventions and so on. For instance, the column for date of birth can be named as ‘birth date’ in one schema and ‘dob’ in the other. These representational differences make it hard to link such similar records even though they refer to the same entity. Record linkage attempts to link such millions of records obtained from tens to thousands of data sources.
+
+The process of record linkage starts with pairwise matching where a pair of records are compared to make a local decision of whether they refer to the same entity or not. But often this local decision making may not be globally consistent.
+
+#### Data Fusion
+Often while combining data from different sources to create a mediated data schema, we find that such different sources provide conflicting values for the same attribute of the same entity. These conflicts can arise because of mistyping, miscalculations or out of date information which has not been updated consistently across all the databases. For instance, let us consider that the takeoff time for a flight has changed starting January 2020 but this information has not been updated across all the databases which contains information about this flight. This leads to conflicting information which can be confusing and also under certain circumstances, harmful. Data fusion attempts at combining such records that refer to the same real-world entity into a single representation by resolving possible conflicts from different data sources.
+
 
 ```{r}
 #Transformations of the datasets#
@@ -294,6 +330,8 @@ datatable(head(transaction_product_store_zip))
 ```
 
 ### Results 
+###Conclusion for Data Integration in Carbon-Loading datasets
+For the datasets we have used, we have not encountered much issues with schema alignment, record linkage and record linkage. This is primarily since the source of our datasets is uniform. We have received all the four datasets used in our analysis from 8451. So, our datasets were clean and homogeneous. Only our zip dataset was in csv format while the other three were in excel. This would have required some work on schema alignment had we not used a powerful analysis tool like R which can read and analysis data in different formats like excel and csv without any additional efforts being made.
 
 ```{r}
 #Question 1 Editing and Results#
@@ -494,3 +532,21 @@ The following issues that we had encountered are:
 In the future, we intend to study if there is any interaction between related products like pasta and pasta sauce and syrup and pancake mix and determine if there is actually any association between the sale of these products. We shall also study if placing similar products together actually increases the sale of either of the products. For instance, we expect that putting pasta and pasta sauce together will logically result in increased sale for both the products rather than putting pasta and syrup together.
 
 We also want to do an association analysis between brands for such related products like do people who buy Pasta Sauce of Brand X also buys Pasta of Brand Y along with it. In such cases, we will be able to come up with better product placement and ad ideas.
+
+### Bibliography
+"Exporting a dataset from R"
+http://www.instantr.com/2012/12/11/exporting-a-dataset-from-r/
+"Scatter Plots on Maps in R"
+https://plot.ly/r/scatter-plots-on-maps/
+"US Zip Code Latitude and Longitude"
+https://public.opendatasoft.com/explore/dataset/us-zip-code-latitude-and-longitude/export/
+"R - Add a new column to the data frame and duplicate the existing rows"
+https://stackoverflow.com/questions/48217301/r-add-a-new-column-to-the-data-frame-and-duplicate-the-existing-rows
+"Text Mining Twitter Data With TidyText in R"
+https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/text-mining-twitter-data-intro-r/
+"Text mining: Twitter extraction and stepwise guide to generate a word cloud"
+https://towardsdatascience.com/text-mining-twitter-extraction-and-stepwise-guide-to-generate-a-word-cloud-a2c9d626008d
+"Carbo-Loading: A Relational Database"
+https://www.8451.com/area51
+"Search Tweets"
+https://developer.twitter.com/en/docs
